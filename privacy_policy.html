@@ -8,46 +8,46 @@
 <title>엘리트 루틴 케어 개인정보처리방침</title>
 
 <style>
-  :root {
-    --paper: #FFFFFF;
-    --ink: #16181D;
-    --ink-body: #35393F;
-    --ink-muted: #666C77;
-    --rule: #DCE0E6;
-    --band: #F5F7FA;
-    --accent: #1E4FBF;
-    --warn-bg: #FFF7E6;
-    --warn-ink: #7A4A00;
-    --warn-rule: #E9C46A;
+  @font-face {
+    font-family: "Pretendard";
+    src: url("fonts/Pretendard-Regular.woff2") format("woff2");
+    font-weight: 400; font-style: normal; font-display: swap;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper: #0F1216;
-      --ink: #F0F2F5;
-      --ink-body: #C8CDD6;
-      --ink-muted: #949BA7;
-      --rule: #2B3038;
-      --band: #171B21;
-      --accent: #7FA9F7;
-      --warn-bg: #2A2113;
-      --warn-ink: #F0C674;
-      --warn-rule: #6B5424;
-    }
+  @font-face {
+    font-family: "Pretendard";
+    src: url("fonts/Pretendard-SemiBold.woff2") format("woff2");
+    font-weight: 600; font-style: normal; font-display: swap;
   }
-  :root[data-theme="dark"] {
-    --paper: #0F1216;
-    --ink: #F0F2F5;
-    --ink-body: #C8CDD6;
-    --ink-muted: #949BA7;
-    --rule: #2B3038;
-    --band: #171B21;
-    --accent: #7FA9F7;
-    --warn-bg: #2A2113;
-    --warn-ink: #F0C674;
-    --warn-rule: #6B5424;
+  @font-face {
+    font-family: "Pretendard";
+    src: url("fonts/Pretendard-ExtraBold.woff2") format("woff2");
+    font-weight: 800; font-style: normal; font-display: swap;
   }
 
-  * { box-sizing: border-box; }
+  :root {
+    --ground: #FFFFFF; --panel: #FFFFFF; --panel-2: #EDF3FF;
+    --ground-2: #F3F7FF;
+    --rule: #DEE7F5; --rule-soft: #EAF0FA; --rule-2: #C7D6EE;
+    --ink: #0A1730; --ink-2: #3D4A60; --ink-3: #5F6E86;
+
+    /* 브랜드 파랑. --dom 은 글자로도 쓰이므로 진한 쪽을 준다. */
+    --dom: #0B4FC0; --dom-bright: #1668F0; --dom-soft: #5AA0FF;
+    --int: #0F766E;
+
+    --warn: #9A6100; --warn-bg: #FFF6E5;
+    --good: #097C42; --good-bg: #E8F6EE;
+    --stop: #CF3327; --stop-bg: #FEF2F1;   /* 4.45 라 조금 밝혔다 */
+
+    --deep: #061B3D; --on-deep: #FFFFFF; --on-deep-2: #A9C2E8;
+    --shadow: 0 1px 2px rgba(10,30,70,.05), 0 12px 32px rgba(10,30,70,.07);
+    --shadow-lg: 0 2px 6px rgba(10,30,70,.06), 0 28px 64px rgba(10,30,70,.12);
+
+    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    --sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+  }
+
+* { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -146,16 +146,108 @@
 
   @page { margin: 18mm 16mm; }
   @media print {
-    :root, :root[data-theme="dark"] {
-      --paper: #fff; --ink: #000; --ink-body: #222; --ink-muted: #555;
-      --rule: #bbb; --band: #f2f2f2; --accent: #123;
-      --warn-bg: #f8f8f8; --warn-ink: #333; --warn-rule: #999;
-    }
-    body { font-size: 10.5pt; line-height: 1.65; }
+    :root,body { font-size: 10.5pt; line-height: 1.65; }
     .doc { max-width: none; padding: 0; }
     h2 { break-after: avoid; }
     table, .callout { break-inside: avoid; }
   }
+
+  /* ── 소개 사이트와 맞춘 글자 크기 ──────────────────────
+     기존 규칙 뒤에 놓아 덮어쓴다. 명시도가 같으면 뒤가 이긴다. */
+  body {
+    background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: 19px; line-height: 1.75;
+    font-weight: 400;
+  }
+  .page { max-width: 1040px; padding-left: 24px; padding-right: 24px; }
+
+  header.top {
+    padding: 76px 0 34px; border-bottom: 0;
+    background:
+      radial-gradient(58% 120% at 12% 0%, rgba(90,160,255,.16), transparent 62%),
+      radial-gradient(46% 100% at 92% 4%, rgba(22,104,240,.10), transparent 64%);
+    margin: 0 -24px 8px; padding-left: 24px; padding-right: 24px;
+    border-radius: 0 0 28px 28px;
+  }
+  .eyebrow {
+    font-family: var(--mono); font-size: 13px; letter-spacing: .2em;
+    color: var(--dom-bright); font-weight: 600; margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(38px, 6.6vw, 68px); line-height: 1.02;
+    letter-spacing: -.05em; font-weight: 800; color: var(--ink);
+  }
+  .lede {
+    font-size: clamp(19px, 2.1vw, 23px); line-height: 1.62;
+    color: var(--ink-2); max-width: 60ch; margin-top: 22px;
+  }
+
+  section { padding: 64px 0 8px; border-bottom: 1px solid var(--rule-soft); }
+  h2 {
+    font-family: var(--mono); font-size: 13px; letter-spacing: .18em;
+    color: var(--dom-bright); font-weight: 600; margin-bottom: 10px;
+  }
+  h3 {
+    font-size: clamp(27px, 3.9vw, 40px); line-height: 1.14;
+    letter-spacing: -.035em; font-weight: 800; color: var(--ink);
+    margin-bottom: 20px;
+  }
+  h4 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+  p, li { font-size: 19px; line-height: 1.75; max-width: 66ch; }
+  strong, b { font-weight: 700; color: var(--ink); }
+
+  /* 카드 — 사이트와 같은 부드러운 그림자 */
+  .board {
+    border-radius: 20px; box-shadow: var(--shadow); background: var(--rule);
+  }
+  .board div { padding: 24px; }
+  .board dt { font-size: 11.5px; letter-spacing: .12em; }
+  .board dd { font-size: 21px; }
+
+  nav.toc, .goal {
+    border-radius: 20px; box-shadow: var(--shadow); border-color: var(--rule);
+  }
+  nav.toc { padding: 24px 28px; }
+  nav.toc li { font-size: 17.5px; }
+  .goal { padding: 30px 30px 10px; }
+  .goal > h4 { font-size: 25px; }
+  .goal .when { font-size: 16px; }
+
+  /* 화면 사진 — 더 크게, 기기처럼 */
+  .shot {
+    max-width: 258px; border-radius: 18px; border: 1px solid var(--rule);
+    box-shadow: var(--shadow); background: var(--panel-2);
+  }
+  .shots { grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 28px; }
+  .shots figcaption { font-size: 15.5px; margin-top: 13px; }
+  .shots figcaption b { font-size: 17px; }
+  .step-shot { max-width: 232px; margin-top: 16px; }
+
+  ol.steps > li { padding-left: 54px; padding-bottom: 26px; }
+  ol.steps > li::before { width: 36px; height: 36px; font-size: 16px; background: var(--dom-bright); }
+  ol.steps > li::after { left: 18px; top: 42px; }
+  .step-title { font-size: 19px; }
+  .step-body { font-size: 16.5px; line-height: 1.7; }
+  .step-title .tap { font-size: 13px; background: var(--panel-2); color: var(--dom); }
+  .freq { font-size: 11.5px; }
+  .freq.day { background: rgba(22,104,240,.12); color: var(--dom); }
+  .freq.week { background: rgba(15,118,110,.13); color: var(--int); }
+
+  .note, .callout {
+    border-radius: 16px; padding: 18px 22px; font-size: 17px; max-width: 66ch;
+  }
+  .note.warn, .callout.warn { background: var(--warn-bg); color: var(--warn); }
+  .note.good, .callout.good { background: var(--good-bg); color: var(--good); }
+  .note.stop { background: var(--stop-bg); color: var(--stop); }
+
+  table { font-size: 17px; }
+  th { font-size: 11.5px; letter-spacing: .12em; }
+  th, td { padding: 15px 18px 15px 0; }
+
+  a { color: var(--dom); }
+  code { background: var(--panel-2); color: var(--ink); }
+  footer { font-size: 14px; padding-top: 44px; }
+  :focus-visible { outline: 3px solid var(--dom-bright); outline-offset: 3px; }
 </style>
 
 <div class="doc">
