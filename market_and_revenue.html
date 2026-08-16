@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>선수 앱 시장과 수익</title>
+<style>
+  :root {
+    --ground: #FAFBFD; --panel: #FFFFFF; --panel-2: #F1F4F9;
+    --rule: #DCE2EB; --rule-soft: #E9EDF3;
+    --ink: #0C121B; --ink-2: #34404E; --ink-3: #6B7889;
+    --dom: #1F6FEB; --int: #0F9C8A;
+    --warn: #9A6100; --warn-bg: #FDF4E3;
+    --good: #1D7A4C; --good-bg: #EAF7EF;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic",
+      "Apple SD Gothic Neo", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #070B12; --panel: #101724; --panel-2: #18202F;
+      --rule: #253042; --rule-soft: #1A2331;
+      --ink: #F2F6FB; --ink-2: #C2CDDB; --ink-3: #8895A8;
+      --dom: #6BA6FF; --int: #3FD6BE;
+      --warn: #F0B45C; --warn-bg: #2A2113;
+      --good: #6FD79B; --good-bg: #12271C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #070B12; --panel: #101724; --panel-2: #18202F;
+    --rule: #253042; --rule-soft: #1A2331;
+    --ink: #F2F6FB; --ink-2: #C2CDDB; --ink-3: #8895A8;
+    --dom: #6BA6FF; --int: #3FD6BE;
+    --warn: #F0B45C; --warn-bg: #2A2113;
+    --good: #6FD79B; --good-bg: #12271C;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 980px; margin: 0 auto; padding: 0 22px 90px; }
+
+  header.top { padding: 56px 0 26px; border-bottom: 2px solid var(--ink); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px;
+  }
+  h1 {
+    margin: 0; font-size: clamp(28px, 5vw, 42px); line-height: 1.12;
+    letter-spacing: -0.03em; font-weight: 800; text-wrap: balance;
+  }
+  .lede { margin: 16px 0 0; max-width: 64ch; color: var(--ink-2); font-size: 17px; }
+
+  .board {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 14px; overflow: hidden; margin: 28px 0 0;
+  }
+  .board div { background: var(--panel); padding: 18px 18px 16px; }
+  .board dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px;
+  }
+  .board dd {
+    margin: 0; font-size: 27px; font-weight: 800; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums; line-height: 1.05;
+  }
+  .board dd small { font-size: 13px; font-weight: 700; color: var(--ink-3); }
+  .board .hint { font-size: 11.5px; color: var(--ink-3); margin-top: 6px; }
+
+  section { padding: 44px 0 6px; border-bottom: 1px solid var(--rule-soft); }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dom); margin: 0 0 6px; font-weight: 600;
+  }
+  h3 {
+    font-size: clamp(20px, 3.4vw, 26px); margin: 0 0 16px;
+    letter-spacing: -0.02em; font-weight: 750; text-wrap: balance;
+  }
+  h4 { font-size: 16px; margin: 26px 0 8px; font-weight: 700; }
+  p { margin: 0 0 16px; max-width: 66ch; color: var(--ink-2); }
+  strong { color: var(--ink); font-weight: 700; }
+  ul { margin: 0 0 16px; padding-left: 20px; }
+  li { margin-bottom: 8px; color: var(--ink-2); max-width: 66ch; }
+
+  .chart { margin: 0 0 22px; }
+  .row {
+    display: grid; grid-template-columns: 132px minmax(0, 1fr) 96px;
+    align-items: center; gap: 12px; padding: 5px 0;
+  }
+  .rl { font-size: 13.5px; font-weight: 650; color: var(--ink); }
+  .rt { background: var(--panel-2); border-radius: 4px; height: 18px; }
+  .fill { display: block; height: 100%; border-radius: 4px; background: var(--dom); }
+  .fill.int { background: var(--int); }
+  .rv {
+    text-align: right; font-size: 13px; font-weight: 750;
+    font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .legend { display: flex; gap: 18px; font-size: 12.5px; color: var(--ink-3); margin: 0 0 14px; }
+  .legend b { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+
+  .years {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+    align-items: end; height: 230px; margin: 0 0 12px;
+  }
+  .ybar { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .ycol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; }
+  .ycol span { display: block; width: 100%; min-height: 2px; }
+  .ycol .core { background: var(--dom); border-radius: 0 0 4px 4px; }
+  .ycol .add { background: var(--int); border-radius: 4px 4px 0 0; }
+  .yv {
+    font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums;
+    padding-top: 8px; text-align: center;
+  }
+  .yl { font-size: 11.5px; color: var(--ink-3); text-align: center; }
+
+  .scroller { overflow-x: auto; margin: 0 0 22px; }
+  table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; }
+  th, td {
+    text-align: left; padding: 10px 14px 10px 0;
+    border-bottom: 1px solid var(--rule-soft); vertical-align: top;
+  }
+  th {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 600;
+    border-bottom-color: var(--rule);
+  }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.strong { font-weight: 800; color: var(--ink); }
+  td.muted { color: var(--ink-3); }
+  td:first-child { font-weight: 650; color: var(--ink); white-space: nowrap; }
+  td.src { font-size: 12.5px; color: var(--ink-3); font-weight: 400; white-space: normal; }
+  .pill {
+    font-family: var(--mono); font-size: 9.5px; margin-left: 7px; padding: 2px 6px;
+    border-radius: 999px; background: var(--panel-2); color: var(--ink-3);
+  }
+  .tag { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+  .tag.src { background: rgba(31,111,235,0.12); color: var(--dom); }
+  .tag.mix { background: rgba(15,156,138,0.14); color: var(--int); }
+  .tag.est { background: var(--warn-bg); color: var(--warn); }
+
+  .callout {
+    border-radius: 12px; padding: 16px 18px; margin: 0 0 20px;
+    font-size: 14.5px; max-width: 66ch;
+  }
+  .callout.warn { background: var(--warn-bg); color: var(--warn); }
+  .callout.good { background: var(--good-bg); color: var(--good); }
+
+  footer { padding-top: 34px; font-size: 12.5px; color: var(--ink-3); font-family: var(--mono); }
+  a { color: var(--dom); }
+  :focus-visible { outline: 2px solid var(--dom); outline-offset: 3px; }
+</style>
+
+<div class="page">
+  <header class="top">
+    <p class="eyebrow">Market &amp; revenue · rev.2 · 2026.08</p>
+    <h1>선수 앱 시장과 수익</h1>
+    <p class="lede">
+      38개 종목 엘리트 선수를 위한 구독형 훈련 관리 앱. 월
+      <strong>9,900원</strong>, 국내 점유율을 5년에 걸쳐
+      <strong>6% → 30%</strong>로 끌어올리고 같은 곡선을 해외로 한 해씩
+      늦춰 적용한 계획입니다. 출처가 있는 수치와 추정치를 표에서 구분했습니다.
+    </p>
+
+    <dl class="board">
+      <div>
+        <dt>1년차 매출</dt>
+        <dd>33<small> 억원</small></dd>
+        <div class="hint">구독 24,600명 · 국내 6%</div>
+      </div>
+      <div>
+        <dt>5년차 매출</dt>
+        <dd>2,536<small> 억원</small></dd>
+        <div class="hint">구독 1,961,224명</div>
+      </div>
+      <div>
+        <dt>LTV / CAC</dt>
+        <dd>16.5<small> 배</small></dd>
+        <div class="hint">회수 1.5개월</div>
+      </div>
+      <div>
+        <dt>전 시장 30% 도달</dt>
+        <dd>6,045<small> 억원</small></dd>
+        <div class="hint">구독 509만 명</div>
+      </div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>01 — Why now</h2>
+    <h3>왜 이 사업인가</h3>
+
+    <p>
+      한국의 학교 운동부 학생선수는 2021년 5만9천 명에서 2023년 4만6천 명으로
+      <strong>3년 새 22% 줄었습니다</strong>. 학령인구 감소율(4.2%)의 두 배
+      속도입니다. 남은 선수 한 명에게 들어가는 돈과 관심은 오히려 커집니다 —
+      부모는 아이가 다치지 않고, 기록이 남고, 진학까지 이어지기를 바랍니다.
+    </p>
+
+    <p>
+      이 앱은 그 세 가지를 한 번에 답합니다. <strong>훈련 부하로 부상을 미리
+      경고하고</strong>(급성:만성 비율 + 수면), <strong>모든 기록을 종단으로
+      쌓고</strong>, <strong>진학용 실적표를 한 장으로 뽑아 줍니다</strong>.
+      경쟁 앱 대부분은 기록만 받아 적습니다.
+    </p>
+
+    <div class="callout good">
+      <b>결제하는 사람은 부모입니다.</b> 아이가 쓰는 앱을 부모가 결제하는
+      구조라 이탈이 늦습니다. 아이의 3년치 성장 기록과 대회 실적이 쌓일수록
+      옮겨 갈 이유가 사라집니다 — 데이터 자체가 잠금장치입니다.
+    </div>
+  </section>
+
+  <section>
+    <h2>02 — Market</h2>
+    <h3>대상 시장</h3>
+
+    <p>과금 단위는 <strong>선수 한 명</strong>입니다. 시장 크기는 곧 등록 선수 수입니다.</p>
+
+    <div class="legend">
+      <span><b style="background:var(--dom)"></b>국내</span>
+      <span><b style="background:var(--int)"></b>해외</span>
+    </div>
+    <div class="chart">
+        <div class="row">
+          <div class="rl">미국</div>
+          <div class="rt"><span class="fill int" style="width:100.0%"></span></div>
+          <div class="rv">8,266,244명</div>
+        </div>
+        <div class="row">
+          <div class="rl">일본</div>
+          <div class="rt"><span class="fill int" style="width:37.5%"></span></div>
+          <div class="rv">3,100,000명</div>
+        </div>
+        <div class="row">
+          <div class="rl">남미 6개국</div>
+          <div class="rt"><span class="fill int" style="width:36.3%"></span></div>
+          <div class="rv">3,000,000명</div>
+        </div>
+        <div class="row">
+          <div class="rl">중국</div>
+          <div class="rt"><span class="fill int" style="width:24.2%"></span></div>
+          <div class="rv">2,000,000명</div>
+        </div>
+        <div class="row">
+          <div class="rl">한국(등록선수 전체)</div>
+          <div class="rt"><span class="fill dom" style="width:5.0%"></span></div>
+          <div class="rv">410,000명</div>
+        </div>
+        <div class="row">
+          <div class="rl">대만</div>
+          <div class="rt"><span class="fill int" style="width:2.2%"></span></div>
+          <div class="rv">185,000명</div>
+        </div></div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>시장</th><th style="text-align:right">대상 선수</th>
+          <th style="text-align:right">10% 연매출</th><th style="text-align:right">30% 연매출</th>
+          <th>근거</th><th>출처</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>한국(학생선수)</td>
+            <td class="num">46,000</td>
+            <td class="num">5억</td>
+            <td class="num strong">16억</td>
+            <td><span class="tag src">실측</span></td>
+            <td class="src">학교 운동부 소속 학생선수 2023</td>
+          </tr>
+          <tr>
+            <td>한국(등록선수 전체)</td>
+            <td class="num">410,000</td>
+            <td class="num">49억</td>
+            <td class="num strong">146억</td>
+            <td><span class="tag src">실측</span></td>
+            <td class="src">대한체육회 등록 선수 2024</td>
+          </tr>
+          <tr>
+            <td>일본</td>
+            <td class="num">3,100,000</td>
+            <td class="num">368억</td>
+            <td class="num strong">1,105억</td>
+            <td><span class="tag mix">혼합</span></td>
+            <td class="src">중체련 200만 + 고체련 약 110만</td>
+          </tr>
+          <tr>
+            <td>미국</td>
+            <td class="num">8,266,244</td>
+            <td class="num">982억</td>
+            <td class="num strong">2,946억</td>
+            <td><span class="tag src">실측</span></td>
+            <td class="src">NFHS 고교 선수 2024-25</td>
+          </tr>
+          <tr>
+            <td>중국</td>
+            <td class="num">2,000,000</td>
+            <td class="num">238억</td>
+            <td class="num strong">713억</td>
+            <td><span class="tag est">추정</span></td>
+            <td class="src">체육 특기·전통학교 중심 보수 추정</td>
+          </tr>
+          <tr>
+            <td>남미 6개국</td>
+            <td class="num">3,000,000</td>
+            <td class="num">356억</td>
+            <td class="num strong">1,069억</td>
+            <td><span class="tag est">추정</span></td>
+            <td class="src">브라질·아르헨 등 유소년 보수 추정</td>
+          </tr>
+          <tr>
+            <td>대만</td>
+            <td class="num">185,000</td>
+            <td class="num">22억</td>
+            <td class="num strong">66억</td>
+            <td><span class="tag est">추정</span></td>
+            <td class="src">한국 41만 × 인구비 0.45</td>
+          </tr></tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <b>국내 숫자를 두 가지로 둔 이유.</b>
+      학교 운동부 학생선수는 46,000명, 대한체육회 등록 선수
+      전체는 410,000명입니다. 앞은 초·중·고 핵심 사용자, 뒤는
+      대학·실업까지 포함한 확장 시장입니다. 아래 계산은 등록 선수 전체를
+      기준으로 합니다.
+    </div>
+  </section>
+
+  <section>
+    <h2>03 — Unit economics</h2>
+    <h3>한 명을 데려오면 얼마가 남는가</h3>
+
+    <p>
+      투자 판단은 총매출이 아니라 여기서 갈립니다. 구독 하나의 값어치가
+      획득 비용보다 크고, 그 회수가 빠른지를 봅니다.
+    </p>
+
+    <dl class="board">
+      <div><dt>월 구독료</dt><dd>9,900<small> 원</small></dd></div>
+      <div><dt>월 순액</dt><dd>7,920<small> 원</small>
+        <div class="hint">스토어 수수료 20% 차감</div></dd></div>
+      <div><dt>월 이탈률</dt><dd>4<small> %</small>
+        <div class="hint">평균 유지 25개월</div></dd></div>
+      <div><dt>LTV</dt><dd>198,000<small> 원</small></dd></div>
+      <div><dt>CAC</dt><dd>12,000<small> 원</small></dd></div>
+      <div><dt>회수 기간</dt><dd>1.5<small> 개월</small></dd></div>
+    </dl>
+
+    <p>
+      <strong>LTV/CAC 16.5배, 회수 1.5개월.</strong>
+      통상 3배 이상이면 건강하다고 보고, 12개월 안에 회수하면 성장에 재투자할
+      수 있다고 봅니다. 이 구조가 성립하는 이유는 두 가지입니다 — 부모가
+      결제하니 가격 저항이 낮고, 획득이 <strong>팀 단위</strong>로 일어나기
+      때문입니다. 감독 한 명을 설득하면 선수 20명이 함께 들어옵니다.
+    </p>
+
+    <div class="callout warn">
+      <b>CAC 12,000원은 가정입니다.</b> 팀 단위 영업과 종목 협회 제휴를
+      전제로 잡은 값이라, 개인 광고로만 모으면 3~5배까지 올라갑니다. 초기
+      12개월은 팀 영업에 집중해야 이 숫자가 유지됩니다.
+    </div>
+  </section>
+
+  <section>
+    <h2>04 — 5 years</h2>
+    <h3>5개년 매출</h3>
+
+    <p>
+      국내 점유율 <strong>6 → 10 → 16 → 22 → 30%</strong>. 해외는 진출 시점부터
+      같은 곡선을 한 해씩 늦춰 적용했습니다. 막대의 아래쪽(파랑)이 구독,
+      위쪽(청록)이 부가 수익입니다.
+    </p>
+
+    <div class="years">
+        <div class="ybar">
+          <div class="ycol">
+            <span class="add" style="height:0.1%"></span>
+            <span class="core" style="height:1.2%"></span>
+          </div>
+          <div class="yv">33억</div>
+          <div class="yl">1년차</div>
+        </div>
+        <div class="ybar">
+          <div class="ycol">
+            <span class="add" style="height:0.7%"></span>
+            <span class="core" style="height:6.3%"></span>
+          </div>
+          <div class="yv">176억</div>
+          <div class="yl">2년차</div>
+        </div>
+        <div class="ybar">
+          <div class="ycol">
+            <span class="add" style="height:1.8%"></span>
+            <span class="core" style="height:18.1%"></span>
+          </div>
+          <div class="yv">504억</div>
+          <div class="yl">3년차</div>
+        </div>
+        <div class="ybar">
+          <div class="ycol">
+            <span class="add" style="height:3.8%"></span>
+            <span class="core" style="height:41.6%"></span>
+          </div>
+          <div class="yv">1,153억</div>
+          <div class="yl">4년차</div>
+        </div>
+        <div class="ybar">
+          <div class="ycol">
+            <span class="add" style="height:8.1%"></span>
+            <span class="core" style="height:91.9%"></span>
+          </div>
+          <div class="yv">2,536억</div>
+          <div class="yl">5년차</div>
+        </div></div>
+    <div class="legend" style="justify-content:center">
+      <span><b style="background:var(--dom)"></b>구독</span>
+      <span><b style="background:var(--int)"></b>부가 수익</span>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th>연차</th><th style="text-align:right">구독자</th>
+            <th style="text-align:right">주</th><th style="text-align:right">월</th>
+            <th style="text-align:right">연 구독</th><th style="text-align:right">연 합계</th>
+            <th style="text-align:right">순매출</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1년차<span class="pill">국내 6%</span></td>
+            <td class="num">24,600</td>
+            <td class="num">0.56억</td>
+            <td class="num">2.4억</td>
+            <td class="num">29억</td>
+            <td class="num strong">33억</td>
+            <td class="num muted">23억</td>
+          </tr>
+          <tr>
+            <td>2년차<span class="pill">국내 10%</span></td>
+            <td class="num">134,000</td>
+            <td class="num">3.06억</td>
+            <td class="num">13.3억</td>
+            <td class="num">159억</td>
+            <td class="num strong">176억</td>
+            <td class="num muted">127억</td>
+          </tr>
+          <tr>
+            <td>3년차<span class="pill">국내 16%</span></td>
+            <td class="num">386,700</td>
+            <td class="num">8.83억</td>
+            <td class="num">38.3억</td>
+            <td class="num">459억</td>
+            <td class="num strong">504억</td>
+            <td class="num muted">368억</td>
+          </tr>
+          <tr>
+            <td>4년차<span class="pill">국내 22%</span></td>
+            <td class="num">888,687</td>
+            <td class="num">20.30억</td>
+            <td class="num">88.0억</td>
+            <td class="num">1,056억</td>
+            <td class="num strong">1,153억</td>
+            <td class="num muted">845억</td>
+          </tr>
+          <tr>
+            <td>5년차<span class="pill">국내 30%</span></td>
+            <td class="num">1,961,224</td>
+            <td class="num">44.81억</td>
+            <td class="num">194.2억</td>
+            <td class="num">2,330억</td>
+            <td class="num strong">2,536억</td>
+            <td class="num muted">1,864억</td>
+          </tr></tbody>
+      </table>
+    </div>
+
+    <p style="font-size:14px;color:var(--ink-3)">
+      순매출은 구독 매출에서 앱스토어 수수료 20%를 뺀 값입니다.
+      부가 수익(팀 라이선스·커머스)은 스토어를 거치지 않아 수수료가 붙지 않습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>05 — Beyond subscription</h2>
+    <h3>구독 말고 어디서 더 버는가</h3>
+
+    <p>
+      구독 하나로만 버는 회사는 성장률이 곧 가입자 증가율에 묶입니다.
+      같은 사용자에게서 더 버는 길을 세 갈래로 열어 뒀습니다. 모두 이미
+      만들어 둔 기능 위에 얹는 것이라 추가 개발이 크지 않습니다.
+    </p>
+
+    <h4>1. 팀·구단 라이선스 (B2B)</h4>
+    <p>
+      감독이 팀 전체를 보는 화면. 국내 학교 운동부 육성학교는
+      <strong>3,890개교</strong>(2022, 교육부)입니다. 팀당 월 99,000원으로
+      잡고 5년에 걸쳐 30%까지 침투하는 계산입니다. 개인 구독과 달리 이탈이
+      학기 단위라 안정적입니다.
+    </p>
+
+    <h4>2. 프리미엄 부가 (진학·AI)</h4>
+    <p>
+      진학 실적표 고급 서식, AI 코치 무제한, 종목별 전문 리포트를 월 4,900원에
+      얹습니다. 구독자의 15%가 쓴다고 봤습니다 — 고3·중3 진학 시즌에 몰립니다.
+    </p>
+
+    <h4>3. 장비·용품 커머스 제휴</h4>
+    <p>
+      이미 훈련비 가계부에 무엇을 얼마에 샀는지가 쌓입니다. 글러브·배트·보호대
+      교체 시점을 아는 앱은 흔치 않습니다. 1인 연 2만원 거래에 수수료 5%로
+      보수적으로 잡았습니다.
+    </p>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>연차</th><th style="text-align:right">구독</th>
+          <th style="text-align:right">팀 라이선스</th><th style="text-align:right">프리미엄</th>
+          <th style="text-align:right">커머스</th><th style="text-align:right">합계</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1년차</td>
+            <td class="num">29억</td>
+            <td class="num">1.4억</td>
+            <td class="num">2.2억</td>
+            <td class="num">0.2억</td>
+            <td class="num strong">33억</td>
+          </tr>
+          <tr>
+            <td>2년차</td>
+            <td class="num">159억</td>
+            <td class="num">3.7억</td>
+            <td class="num">11.8억</td>
+            <td class="num">1.3억</td>
+            <td class="num strong">176억</td>
+          </tr>
+          <tr>
+            <td>3년차</td>
+            <td class="num">459억</td>
+            <td class="num">6.9억</td>
+            <td class="num">34.1억</td>
+            <td class="num">3.9억</td>
+            <td class="num strong">504억</td>
+          </tr>
+          <tr>
+            <td>4년차</td>
+            <td class="num">1,056억</td>
+            <td class="num">10.2억</td>
+            <td class="num">78.4억</td>
+            <td class="num">8.9억</td>
+            <td class="num strong">1,153억</td>
+          </tr>
+          <tr>
+            <td>5년차</td>
+            <td class="num">2,330억</td>
+            <td class="num">13.9억</td>
+            <td class="num">173.0억</td>
+            <td class="num">19.6억</td>
+            <td class="num strong">2,536억</td>
+          </tr></tbody>
+      </table>
+    </div>
+
+    <p style="font-size:14px;color:var(--ink-3)">
+      5년차 기준 부가 수익이 전체의
+      8%를 차지합니다.
+      구독자 1인당 연 매출(ARPU)은
+      134,222원 → 129,327원으로 올라갑니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>06 — Global</h2>
+    <h3>글로벌 시장별 수익</h3>
+
+    <p>각 시장 30% 점유 기준입니다.</p>
+    <div class="chart">
+        <div class="row">
+          <div class="rl">미국</div>
+          <div class="rt"><span class="fill int" style="width:100.0%"></span></div>
+          <div class="rv">2,946억</div>
+        </div>
+        <div class="row">
+          <div class="rl">일본</div>
+          <div class="rt"><span class="fill int" style="width:37.5%"></span></div>
+          <div class="rv">1,105억</div>
+        </div>
+        <div class="row">
+          <div class="rl">남미 6개국</div>
+          <div class="rt"><span class="fill int" style="width:36.3%"></span></div>
+          <div class="rv">1,069억</div>
+        </div>
+        <div class="row">
+          <div class="rl">중국</div>
+          <div class="rt"><span class="fill int" style="width:24.2%"></span></div>
+          <div class="rv">713억</div>
+        </div>
+        <div class="row">
+          <div class="rl">한국(등록선수 전체)</div>
+          <div class="rt"><span class="fill dom" style="width:5.0%"></span></div>
+          <div class="rv">146억</div>
+        </div>
+        <div class="row">
+          <div class="rl">대만</div>
+          <div class="rt"><span class="fill int" style="width:2.2%"></span></div>
+          <div class="rv">66억</div>
+        </div></div>
+
+    <dl class="board">
+      <div><dt>합계 구독자</dt><dd>509<small> 만 명</small></dd></div>
+      <div><dt>주</dt><dd>116.2<small> 억원</small></dd></div>
+      <div><dt>월</dt><dd>503.7<small> 억원</small></dd></div>
+      <div><dt>연</dt><dd>6,045<small> 억원</small></dd>
+        <div class="hint">순 4,836억</div></div>
+    </dl>
+
+    <p>
+      미국이 전체의 40%를 차지합니다. 다만 미국은 고교 스포츠 조직이 주별로
+      다르고 경쟁 앱(Hudl, TeamSnap)이 자리 잡고 있어, <strong>일본과
+      대만을 먼저</strong> 잡는 편이 현실적입니다. 학교 운동부 문화와 진학
+      구조가 한국과 가장 닮았고, 앱을 거의 그대로 번역해 넣을 수 있습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>07 — Risks</h2>
+    <h3>이 숫자가 서 있는 가정</h3>
+
+    <ul>
+      <li><strong>가격은 전 시장 9,900원 고정</strong>으로 계산했습니다.
+        미국은 더 받을 수 있고($9.99 수준), 남미·중국은 낮춰야 합니다.</li>
+      <li><strong>이탈률 월 4%</strong>는 가정입니다. 실제로는
+        시즌 종료·졸업 시점에 몰려 빠집니다. 학년이 바뀔 때 이탈을 막는
+        장치(진급 축하, 지난 시즌 리포트)가 필요합니다.</li>
+      <li><strong>CAC 12,000원</strong>은 팀 단위 영업을 전제로 합니다.</li>
+      <li><strong>중국·남미·대만은 추정치</strong>입니다. 진출 전에 현지 협회
+        통계로 바꿔야 합니다. 중국은 미성년자 앱 규제와 데이터 국외 이전
+        심사가 별도로 있습니다.</li>
+      <li><strong>국내 시장은 줄고 있습니다.</strong> 점유율을 올려도 모수가
+        빠지면 매출은 제자리입니다. 대학·실업·동호인으로 넓히거나 해외로
+        나가는 것이 선택이 아니라 전제입니다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>08 — Sources</h2>
+    <h3>출처</h3>
+    <ul>
+      <li>대한체육회 등록 선수 41만 명(2024), 학생선수 4.6만 명(2023),
+        운동부 육성학교 3,890개교(2022) —
+        <a href="https://www.hankookilbo.com/news/article/A2024012414440003830">한국일보 2024.01.24</a>,
+        <a href="https://g1.sports.or.kr/stat/stat01.do">대한체육회 스포츠지원포털</a></li>
+      <li>미국 고교 선수 8,266,244명(2024-25) —
+        <a href="https://nfhs.org/stories/participation-in-high-school-sports-hits-record-high-with-sizable-increase-in-2024-25">NFHS 참가 조사</a></li>
+      <li>일본 중학교 운동부 약 200만 명 —
+        <a href="https://www.mext.go.jp/sports/content/20240502-spt_oripara01-000013015_02.pdf">문부과학성·노무라종합연구소(2024)</a></li>
+    </ul>
+  </section>
+
+  <footer>엘리트 루틴 케어 · 시장·수익 rev.2 · 월 9,900원 · 국내 6→30%</footer>
+</div>
+
+</body>
+</html>
