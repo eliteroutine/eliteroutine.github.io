@@ -1,0 +1,507 @@
+<title>엘리트 루틴 케어 개인정보처리방침</title>
+
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --ink: #16181D;
+    --ink-body: #35393F;
+    --ink-muted: #666C77;
+    --rule: #DCE0E6;
+    --band: #F5F7FA;
+    --accent: #1E4FBF;
+    --warn-bg: #FFF7E6;
+    --warn-ink: #7A4A00;
+    --warn-rule: #E9C46A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0F1216;
+      --ink: #F0F2F5;
+      --ink-body: #C8CDD6;
+      --ink-muted: #949BA7;
+      --rule: #2B3038;
+      --band: #171B21;
+      --accent: #7FA9F7;
+      --warn-bg: #2A2113;
+      --warn-ink: #F0C674;
+      --warn-rule: #6B5424;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F1216;
+    --ink: #F0F2F5;
+    --ink-body: #C8CDD6;
+    --ink-muted: #949BA7;
+    --rule: #2B3038;
+    --band: #171B21;
+    --accent: #7FA9F7;
+    --warn-bg: #2A2113;
+    --warn-ink: #F0C674;
+    --warn-rule: #6B5424;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink-body);
+    font-family: 'Pretendard Variable', Pretendard, -apple-system,
+      'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  .doc { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  h1 {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -.015em;
+    color: var(--ink);
+    margin: 42px 0 12px;
+    padding-top: 6px;
+  }
+
+  h3 {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 24px 0 8px;
+  }
+
+  p { margin: 0 0 14px; }
+
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+
+  strong { color: var(--ink); font-weight: 700; }
+
+  /* 사업자가 채워야 하는 자리. 비워 둔 채 공개하면 안 된다. */
+  .fill {
+    background: var(--warn-bg);
+    color: var(--warn-ink);
+    border: 1px dashed var(--warn-rule);
+    border-radius: 4px;
+    padding: 0 6px;
+    font-weight: 700;
+    font-size: .93em;
+    white-space: nowrap;
+  }
+
+  .callout {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-rule);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--warn-ink);
+  }
+  .callout b { color: var(--warn-ink); }
+
+  .tablewrap { overflow-x: auto; margin: 16px 0 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  thead th { background: var(--band); color: var(--ink); font-weight: 700; white-space: nowrap; }
+  tbody th { font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 2px solid var(--ink);
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  @page { margin: 18mm 16mm; }
+  @media print {
+    :root, :root[data-theme="dark"] {
+      --paper: #fff; --ink: #000; --ink-body: #222; --ink-muted: #555;
+      --rule: #bbb; --band: #f2f2f2; --accent: #123;
+      --warn-bg: #f8f8f8; --warn-ink: #333; --warn-rule: #999;
+    }
+    body { font-size: 10.5pt; line-height: 1.65; }
+    .doc { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    table, .callout { break-inside: avoid; }
+  }
+</style>
+
+<div class="doc">
+
+  <h1>엘리트 루틴 케어 개인정보처리방침</h1>
+  <p class="meta">
+    시행일 <span class="fill">시행일 입력</span> · 버전 2026-08-2 · 초안
+  </p>
+
+  <div class="callout">
+    <b>이 문서는 초안입니다.</b> 노란색으로 표시된 자리는 사업자 정보로 채워야
+    하며, 공개 전 개인정보보호 전문 변호사의 검토를 받으시기 바랍니다.
+    이용자 상당수가 만 14세 미만 아동이므로 일반 서비스보다 요구 수준이 높습니다.
+  </div>
+
+  <p>
+    <span class="fill">회사명</span>(이하 "회사")은 「개인정보 보호법」 등
+    관련 법령에 따라 이용자의 개인정보를 보호하고 이와 관련한 고충을 신속하게
+    처리할 수 있도록 다음과 같이 개인정보처리방침을 수립·공개합니다.
+  </p>
+
+  <!-- 1 -->
+  <h2>1. 개인정보의 처리 목적</h2>
+  <p>회사는 다음의 목적으로 개인정보를 처리하며, 목적 외의 용도로는 이용하지 않습니다.</p>
+  <ul>
+    <li><strong>회원 식별 및 계정 관리</strong> — 로그인, 본인 확인, 기기 변경 시 기록 복구</li>
+    <li><strong>훈련 기록 서비스 제공</strong> — 루틴·일지·측정 기록의 저장과 조회</li>
+    <li><strong>맞춤형 훈련 안내</strong> — 종목·연령·기록에 맞춘 AI 코치 답변 및 주간 리포트 생성</li>
+    <li><strong>보호자 연동</strong> — 법정대리인 또는 지도자에게 훈련 현황·컨디션 공유</li>
+    <li><strong>안전 관리</strong> — 통증·컨디션 정보에 기반한 부상 위험 안내</li>
+    <li><strong>서비스 개선 및 문의 응대</strong></li>
+  </ul>
+
+  <!-- 2 -->
+  <h2>2. 처리하는 개인정보 항목</h2>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>구분</th><th>항목</th><th>수집 방법</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>필수 · 계정</th>
+          <td>이메일, 로그인 수단(구글 등), 서비스 이용 식별자</td>
+          <td>회원가입 시 이용자 입력 또는 제휴 로그인 제공자로부터 수신</td>
+        </tr>
+        <tr>
+          <th>필수 · 프로필</th>
+          <td>이름, 생년월일, 학교, 종목, 포지션, 소속 팀 이력</td>
+          <td>이용자 직접 입력</td>
+        </tr>
+        <tr>
+          <th>필수 · 훈련</th>
+          <td>루틴 완료 기록, 훈련 일지, 연속 달성일, 포인트·업적</td>
+          <td>서비스 이용 과정에서 생성</td>
+        </tr>
+        <tr>
+          <th>필수 · 신체</th>
+          <td>키, 몸무게, 발 사이즈, 종목별 기록(구속·기록 등)</td>
+          <td>이용자 직접 입력</td>
+        </tr>
+        <tr>
+          <th>선택 · 민감정보</th>
+          <td>통증 부위, 불편 부위, 수면 시간</td>
+          <td>이용자 직접 입력 (별도 동의)</td>
+        </tr>
+        <tr>
+          <th>선택 · 사진</th>
+          <td>프로필 사진, 훈련 일지 첨부 사진</td>
+          <td>이용자 직접 등록</td>
+        </tr>
+        <tr>
+          <th>자동 생성</th>
+          <td>서비스 이용 기록, 접속 일시, 기기·앱 버전 정보</td>
+          <td>서비스 이용 과정에서 자동 생성</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    <strong>민감정보 처리에 관한 고지.</strong> 통증 부위·불편 부위·수면 시간은
+    「개인정보 보호법」상 건강에 관한 정보로서 민감정보에 해당합니다. 회사는
+    이용자에게 별도로 동의를 받은 경우에만 이를 처리하며, 동의하지 않아도 그
+    밖의 서비스는 이용할 수 있습니다.
+  </p>
+
+  <p>
+    회사는 주민등록번호 등 고유식별정보를 수집하지 않습니다.
+  </p>
+
+  <!-- 3 -->
+  <h2>3. 만 14세 미만 아동의 개인정보 처리</h2>
+  <p>
+    회사는 만 14세 미만 아동의 개인정보를 처리하는 경우 <strong>법정대리인의
+    동의</strong>를 받습니다.
+  </p>
+
+  <h3>동의 확인 방법</h3>
+  <p>
+    법정대리인 동의는 <strong>법정대리인이 앱의 학부모 모드에서 직접
+    승인</strong>하는 방법으로 확인합니다. 아동이 법정대리인의 성명을 대신
+    입력하는 방식은 사용하지 않습니다.
+  </p>
+  <ol>
+    <li>아동이 수집·이용 항목을 확인하고 동의합니다.</li>
+    <li>법정대리인이 학부모 모드에서 아동이 동의한 항목을 확인합니다.</li>
+    <li>법정대리인이 본인 성명을 입력하고 법정대리인임을 확인한 뒤 승인합니다.</li>
+    <li>회사는 승인 일시와 승인 경로를 기록합니다.</li>
+  </ol>
+  <p>
+    <strong>법정대리인이 승인하기 전까지 회사는 해당 아동의 개인정보를 서버에
+    저장하지 않습니다.</strong> 이 기간 동안 기록은 아동의 기기 안에만
+    보관됩니다.
+  </p>
+  <ul>
+    <li>법정대리인은 아동의 개인정보에 대한 열람·정정·삭제·처리정지를 요구할 수
+      있으며, 앱의 <strong>학부모 모드 &gt; 내 정보 관리</strong>에서 직접
+      행사할 수 있습니다.</li>
+    <li>법정대리인은 승인을 언제든 철회할 수 있습니다. 철회 시 이후의 개인정보는
+      서버에 저장되지 않습니다.</li>
+    <li>회사는 아동이 이해하기 쉬운 표현으로 고지 사항을 별도 안내합니다.</li>
+  </ul>
+
+  <!-- 4 -->
+  <h2>4. 개인정보의 처리 및 보유 기간</h2>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>구분</th><th>보유 기간</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>계정 및 프로필 정보</td><td>회원 탈퇴 시까지</td></tr>
+        <tr><td>훈련·신체 기록</td><td>회원 탈퇴 시까지</td></tr>
+        <tr><td>민감정보(통증·컨디션)</td><td>동의 철회 또는 회원 탈퇴 시까지</td></tr>
+        <tr><td>서비스 이용 기록</td><td>수집일로부터 1년 <span class="fill">기간 확정 필요</span></td></tr>
+        <tr><td>결제·거래 기록</td><td>전자상거래법에 따라 5년</td></tr>
+        <tr><td>소비자 불만·분쟁 처리 기록</td><td>전자상거래법에 따라 3년</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    회원 탈퇴 시 개인정보는 지체 없이 파기합니다. 다만 관계 법령에 따라 보존이
+    필요한 정보는 해당 기간 동안 분리 보관합니다.
+  </p>
+
+  <!-- 5 -->
+  <h2>5. 개인정보의 제3자 제공</h2>
+  <p>
+    회사는 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만 다음의 경우는
+    예외로 합니다.
+  </p>
+  <ul>
+    <li>이용자가 사전에 <strong>별도로 동의</strong>한 경우</li>
+    <li>법령에 특별한 규정이 있거나 수사기관의 적법한 요구가 있는 경우</li>
+  </ul>
+  <p>
+    <strong>보호자 연동에 관하여.</strong> 이용자(선수)가 연동 코드를 통해
+    보호자 또는 지도자를 직접 연결한 경우, 해당 보호자는 이용자의 훈련 현황과
+    컨디션 정보를 열람할 수 있습니다. 이는 이용자의 요청에 따른 공유이며,
+    이용자는 언제든 연동을 해제할 수 있습니다.
+  </p>
+
+  <!-- 6 -->
+  <h2>6. 개인정보 처리업무의 위탁</h2>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>수탁자</th><th>위탁 업무</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google LLC (Firebase)</td>
+          <td>데이터 저장·인증·앱 무결성 검증, 생성형 AI 응답 처리</td>
+        </tr>
+        <tr>
+          <td><span class="fill">기타 수탁자</span></td>
+          <td><span class="fill">해당 시 기재</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    회사는 위탁계약 체결 시 개인정보가 안전하게 관리되도록 필요한 사항을
+    규정하고 수탁자를 감독합니다.
+  </p>
+
+  <!-- 7 -->
+  <h2>7. 개인정보의 국외 이전</h2>
+  <p>
+    회사는 훈련 기록을 <strong>대한민국 리전(서울)</strong>에 저장합니다.
+    다만 계정 인증과 AI 답변 생성 등 일부 처리는 국외에서 이루어질 수 있어,
+    아래와 같이 국외 이전 사항을 알려 드리고 <strong>별도로 동의</strong>를
+    받습니다.
+  </p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>구분</th><th>이전받는 자</th><th>이전 국가</th><th>이전 항목</th><th>목적</th><th>보유 기간</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>데이터 저장</td>
+          <td>Google LLC</td>
+          <td>대한민국 (서울 리전)</td>
+          <td>계정·프로필·훈련·신체 정보, 동의 시 민감정보</td>
+          <td>훈련 기록 보관</td>
+          <td>회원 탈퇴 시까지</td>
+        </tr>
+        <tr>
+          <td>계정 인증 · 앱 무결성</td>
+          <td>Google LLC</td>
+          <td><span class="fill">처리 지역 확인</span></td>
+          <td>이메일, 서비스 이용 식별자</td>
+          <td>로그인 및 비정상 접근 차단</td>
+          <td>회원 탈퇴 시까지</td>
+        </tr>
+        <tr>
+          <td>AI 답변 생성</td>
+          <td>Google LLC</td>
+          <td><span class="fill">처리 지역 확인</span></td>
+          <td>질문 내용, 종목·나이·신체 정보 (동의 시 통증 정보)</td>
+          <td>AI 코치 답변 및 주간 리포트 생성</td>
+          <td>답변 생성 후 즉시 파기</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>통증·컨디션 정보는 민감정보 제공에 동의한 경우에만 AI 처리에
+    포함됩니다.</strong> 동의하지 않으면 해당 정보는 전송 대상에서 제외됩니다.
+  </p>
+  <p>
+    이용자는 국외 이전을 거부할 수 있습니다. 다만 거부 시 기기 변경에 따른
+    기록 복구 등 일부 기능의 이용이 제한될 수 있습니다.
+  </p>
+
+  <!-- 8 -->
+  <h2>8. 자동화된 결정에 관한 사항</h2>
+  <p>
+    회사는 AI 코치 답변과 주간 리포트 생성에 생성형 AI를 이용합니다. 다만 이는
+    훈련 참고 자료를 제공하는 것으로, <strong>이용자의 권리·의무에 중대한 영향을
+    미치는 자동화된 결정을 하지 않습니다.</strong>
+  </p>
+  <ul>
+    <li>AI가 생성한 답변은 의학적 진단이나 처방이 아닙니다.</li>
+    <li>등급(티어)과 점수는 이용자 본인의 기록만으로 계산되며, 타인과의 비교나
+      평가에 사용되지 않습니다.</li>
+    <li>이용자는 AI 답변의 생성 기준에 대한 설명을 요구할 수 있습니다.</li>
+  </ul>
+
+  <!-- 9 -->
+  <h2>9. 개인정보의 파기</h2>
+  <p>
+    보유 기간이 지나거나 처리 목적이 달성된 개인정보는 지체 없이 파기합니다.
+  </p>
+  <ul>
+    <li><strong>전자적 파일</strong> — 복구할 수 없는 방법으로 영구 삭제</li>
+    <li><strong>출력물</strong> — 분쇄 또는 소각</li>
+  </ul>
+
+  <!-- 10 -->
+  <h2>10. 이용자와 법정대리인의 권리·의무 및 행사 방법</h2>
+  <p>이용자와 만 14세 미만 아동의 법정대리인은 다음 권리를 행사할 수 있습니다.</p>
+  <ol>
+    <li>개인정보 열람 요구</li>
+    <li>오류 등이 있을 경우 정정 요구</li>
+    <li>삭제 요구</li>
+    <li>처리정지 요구</li>
+    <li>동의 철회</li>
+  </ol>
+  <p>
+    권리 행사는 앱 내 <strong>마이페이지</strong> 또는 아래 개인정보 보호책임자
+    연락처를 통해 하실 수 있으며, 회사는 지체 없이 조치합니다.
+  </p>
+
+  <!-- 11 -->
+  <h2>11. 앱 접근권한 안내</h2>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>권한</th><th>구분</th><th>이용 목적</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>카메라</td><td>선택</td><td>자세 분석 및 프로필·일지 사진 촬영</td></tr>
+        <tr><td>사진·미디어</td><td>선택</td><td>프로필·일지 사진 등록</td></tr>
+        <tr><td>알림</td><td>선택</td><td>루틴 알람 및 미션 안내</td></tr>
+        <tr><td>마이크</td><td>선택</td><td>훈련 일지 음성 입력 (기기 안에서 문자로 변환)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    선택 접근권한에 동의하지 않아도 서비스의 기본 기능은 이용할 수 있습니다.
+    권한은 기기 설정에서 언제든 변경할 수 있습니다.
+  </p>
+  <p>
+    <strong>자세 분석 영상에 관하여.</strong> 카메라를 이용한 자세 분석은
+    기기 안에서만 처리되며, 영상이나 이미지는 서버로 전송되거나 저장되지
+    않습니다.
+  </p>
+
+  <!-- 12 -->
+  <h2>12. 개인정보의 안전성 확보 조치</h2>
+  <ul>
+    <li>개인정보 취급 담당자의 최소화 및 접근 권한 관리</li>
+    <li>전송 구간 암호화 및 저장 데이터 접근 통제</li>
+    <li>접근 기록의 보관</li>
+    <li>비인가 접근 차단을 위한 보안 규칙 운영</li>
+  </ul>
+
+  <!-- 13 -->
+  <h2>13. 개인정보 보호책임자</h2>
+  <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><th>개인정보 보호책임자</th><td><span class="fill">성명 / 직책</span></td></tr>
+        <tr><th>연락처</th><td><span class="fill">전화</span> / <span class="fill">이메일</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    이용자는 서비스 이용 중 발생한 모든 개인정보 보호 관련 문의를 보호책임자에게
+    할 수 있으며, 회사는 지체 없이 답변합니다.
+  </p>
+
+  <!-- 14 -->
+  <h2>14. 권익침해 구제 방법</h2>
+  <ul>
+    <li>개인정보분쟁조정위원회 — 1833-6972 (www.kopico.go.kr)</li>
+    <li>개인정보침해신고센터 — 118 (privacy.kisa.or.kr)</li>
+    <li>대검찰청 사이버수사과 — 1301</li>
+    <li>경찰청 사이버수사국 — 182</li>
+  </ul>
+
+  <!-- 15 -->
+  <h2>15. 개인정보처리방침의 변경</h2>
+  <p>
+    이 방침의 내용 추가·삭제·수정이 있을 경우 시행 7일 전부터 앱 내 공지합니다.
+    다만 수집하는 개인정보 항목이나 이용 목적이 변경되는 등 이용자 권리에
+    중요한 변경이 있는 경우에는 <strong>최소 30일 전에 공지하고 필요한 경우
+    다시 동의를 받습니다.</strong>
+  </p>
+
+  <footer>
+    <p style="margin:0 0 6px">
+      <strong><span class="fill">회사명</span></strong> ·
+      대표 <span class="fill">대표자</span> ·
+      사업자등록번호 <span class="fill">번호</span>
+    </p>
+    <p style="margin:0">
+      주소 <span class="fill">주소</span> · 문의 <span class="fill">이메일</span>
+    </p>
+  </footer>
+
+</div>

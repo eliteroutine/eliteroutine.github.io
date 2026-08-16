@@ -1,0 +1,573 @@
+<title>개인정보 법적 쟁점 검토</title>
+
+<style>
+  :root {
+    --paper: #F7F8FA;
+    --surface: #FFFFFF;
+    --ink: #14171C;
+    --ink-body: #3A3F48;
+    --ink-muted: #6E7682;
+    --rule: #DDE1E7;
+    --me-bg: #1E4FBF;
+    --me-ink: #FFFFFF;
+    --them-bg: #FFFFFF;
+    --crit: #B3261E;
+    --crit-bg: #FDECEA;
+    --high: #B45309;
+    --high-bg: #FEF3E2;
+    --mid: #1E4FBF;
+    --mid-bg: #EAF0FD;
+    --ok: #0E7C55;
+    --ok-bg: #E6F5EF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0D1015;
+      --surface: #151A21;
+      --ink: #EDF0F4;
+      --ink-body: #C3C9D3;
+      --ink-muted: #8B93A1;
+      --rule: #272D36;
+      --me-bg: #2A5FD0;
+      --me-ink: #FFFFFF;
+      --them-bg: #1A2029;
+      --crit: #F2A9A2;
+      --crit-bg: #2E1615;
+      --high: #F0C077;
+      --high-bg: #2C2113;
+      --mid: #8FB3F7;
+      --mid-bg: #162034;
+      --ok: #6FD6AC;
+      --ok-bg: #10281F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0D1015;
+    --surface: #151A21;
+    --ink: #EDF0F4;
+    --ink-body: #C3C9D3;
+    --ink-muted: #8B93A1;
+    --rule: #272D36;
+    --me-bg: #2A5FD0;
+    --me-ink: #FFFFFF;
+    --them-bg: #1A2029;
+    --crit: #F2A9A2;
+    --crit-bg: #2E1615;
+    --high: #F0C077;
+    --high-bg: #2C2113;
+    --mid: #8FB3F7;
+    --mid-bg: #162034;
+    --ok: #6FD6AC;
+    --ok-bg: #10281F;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink-body);
+    font-family: 'Pretendard Variable', Pretendard, -apple-system,
+      'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 44px 20px 90px; }
+
+  header.top {
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .sub { font-size: 14px; color: var(--ink-muted); margin: 0; }
+
+  /* 자문이 아니라는 사실이 문서 맨 앞에 있어야 한다. */
+  .disclaimer {
+    margin: 22px 0 34px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    background: var(--crit-bg);
+    border: 1px solid var(--crit);
+    color: var(--crit);
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .disclaimer b { display: block; margin-bottom: 4px; font-size: 14.5px; }
+
+  /* --- 요약 표 --- */
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  .summary h2 {
+    margin: 0;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .sumrow {
+    display: grid;
+    grid-template-columns: 74px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+  }
+  .sumrow:last-child { border-bottom: 0; }
+  .sumrow .what { color: var(--ink); font-weight: 600; }
+  .sumrow .where { font-size: 12.5px; color: var(--ink-muted); white-space: nowrap; }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .03em;
+    padding: 3px 8px;
+    border-radius: 5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .tag.crit { background: var(--crit-bg); color: var(--crit); }
+  .tag.high { background: var(--high-bg); color: var(--high); }
+  .tag.mid  { background: var(--mid-bg);  color: var(--mid); }
+  .tag.ok   { background: var(--ok-bg);   color: var(--ok); }
+
+  @media (max-width: 620px) {
+    .sumrow { grid-template-columns: 68px 1fr; }
+    .sumrow .where { grid-column: 2; }
+  }
+
+  /* --- 대화 --- */
+  .thread { display: flex; flex-direction: column; gap: 16px; }
+
+  .turn { display: flex; gap: 12px; align-items: flex-start; }
+  .turn.mine { flex-direction: row-reverse; }
+
+  .who {
+    flex: none;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink-muted);
+  }
+  .turn.mine .who { background: var(--me-bg); color: var(--me-ink); border-color: transparent; }
+
+  .bubble {
+    max-width: 78%;
+    padding: 14px 17px;
+    border-radius: 14px;
+    background: var(--them-bg);
+    border: 1px solid var(--rule);
+    font-size: 14.5px;
+    line-height: 1.72;
+  }
+  .turn.mine .bubble {
+    background: var(--me-bg);
+    color: var(--me-ink);
+    border-color: transparent;
+  }
+  .turn.mine .bubble strong { color: var(--me-ink); }
+
+  .bubble p { margin: 0 0 10px; }
+  .bubble p:last-child { margin-bottom: 0; }
+  .bubble strong { color: var(--ink); font-weight: 700; }
+  .bubble ul { margin: 8px 0 10px; padding-left: 20px; }
+  .bubble li { margin-bottom: 5px; }
+
+  .finding {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 9px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink-muted);
+  }
+
+  .quote {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--rule);
+    background: var(--paper);
+    border-radius: 0 8px 8px 0;
+    font-size: 13.5px;
+    color: var(--ink-muted);
+  }
+
+  .code {
+    font-family: 'SF Mono', 'D2Coding', ui-monospace, monospace;
+    font-size: 12.5px;
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .turn.mine .code { background: rgba(255,255,255,.16); color: var(--me-ink); }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 30px 0 14px;
+    color: var(--ink-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .1em;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  footer {
+    margin-top: 46px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  @page { margin: 16mm 14mm; }
+  @media print {
+    :root, :root[data-theme="dark"] {
+      --paper: #fff; --surface: #fff; --ink: #000; --ink-body: #222;
+      --ink-muted: #555; --rule: #bbb;
+      --me-bg: #eef2fb; --me-ink: #14213D; --them-bg: #fff;
+      --crit: #8B1A14; --crit-bg: #FBECEA;
+      --high: #7A4A00; --high-bg: #FBF3E4;
+      --mid: #123C97;  --mid-bg: #EBF0FB;
+      --ok: #0A5C3F;   --ok-bg: #E9F5F0;
+    }
+    body { font-size: 10.5pt; line-height: 1.6; }
+    .wrap { max-width: none; padding: 0; }
+    .turn, .summary, .disclaimer { break-inside: avoid; }
+    .bubble { max-width: 100%; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <h1>개인정보 법적 쟁점 검토</h1>
+    <p class="sub">엘리트 루틴 케어 · 서버 저장 도입 전 사전 점검 · 2026-08</p>
+  </header>
+
+  <div class="disclaimer">
+    <b>이 문서는 법률 자문이 아닙니다.</b>
+    변호사 검토를 대신할 수 없으며, 자문 전 쟁점을 정리해 시간을 줄이기 위한
+    내부 점검 자료입니다. 아래 '검토자' 발언은 개인정보보호 실무에서 통상
+    제기되는 지적을 역할극 형식으로 정리한 것으로, 실제 변호사의 의견이
+    아닙니다. 조문 번호와 최신 개정 사항은 반드시 확인하시기 바랍니다.
+  </div>
+
+  <div class="summary">
+    <h2>지적 사항 요약 — 11건</h2>
+    <div class="sumrow"><span class="tag crit">중대</span><span class="what">국외 이전 동의 절차 없음</span><span class="where">동의 화면</span></div>
+    <div class="sumrow"><span class="tag crit">중대</span><span class="what">AI 코치 입력값에 민감정보가 섞여 국외로 나감</span><span class="where">AI 코치</span></div>
+    <div class="sumrow"><span class="tag crit">중대</span><span class="what">법정대리인 동의 확인 수단이 성명 입력뿐</span><span class="where">동의 화면</span></div>
+    <div class="sumrow"><span class="tag crit">중대</span><span class="what">탈퇴·파기 절차와 기능이 없음</span><span class="where">앱 전반</span></div>
+    <div class="sumrow"><span class="tag high">높음</span><span class="what">아동용 쉬운 표현 고지 미비</span><span class="where">동의 화면</span></div>
+    <div class="sumrow"><span class="tag high">높음</span><span class="what">개인정보 보호책임자 미지정</span><span class="where">방침</span></div>
+    <div class="sumrow"><span class="tag high">높음</span><span class="what">열람·삭제 요구를 처리할 창구 없음</span><span class="where">마이페이지</span></div>
+    <div class="sumrow"><span class="tag mid">중간</span><span class="what">앱 접근권한 사전 고지 화면 없음</span><span class="where">온보딩</span></div>
+    <div class="sumrow"><span class="tag mid">중간</span><span class="what">보유 기간이 '탈퇴 시까지'로만 되어 있음</span><span class="where">방침</span></div>
+    <div class="sumrow"><span class="tag mid">중간</span><span class="what">B2B 데이터 활용은 현재 근거 없음</span><span class="where">사업 계획</span></div>
+    <div class="sumrow"><span class="tag ok">양호</span><span class="what">민감정보 별도 동의·보안 규칙 설계</span><span class="where">동의·규칙</span></div>
+  </div>
+
+  <div class="divider">검토 대화</div>
+
+  <div class="thread">
+
+    <div class="turn mine">
+      <div class="who">데이빗</div>
+      <div class="bubble">
+        <p>유소년 선수용 훈련 기록 앱입니다. 지금까지는 데이터를 휴대폰에만
+          저장했는데, 기기를 바꾸면 기록이 사라져서 서버 저장으로 바꾸려고 합니다.
+          이용자 상당수가 초·중학생입니다. 처리방침 초안과 앱의 동의 흐름을
+          봐주세요.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <p>구조부터 보겠습니다. 수집 항목을 코드 한 곳에 정의하고 화면·방침이
+          같은 목록을 보게 한 점, 통증 정보를 민감정보로 분리해 선택 동의로 뺀 점,
+          동의가 없으면 서버 쓰기가 <span class="code">firestore.rules</span>에서
+          막히게 한 점은 좋습니다. 실무에서 이 세 가지가 안 돼 있는 경우가
+          훨씬 많습니다.</p>
+        <p>다만 <strong>서비스를 열기 전에 반드시 막아야 할 것이 네 건</strong>
+          있습니다. 순서대로 짚겠습니다.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag crit">중대 01</span> 국외 이전</div>
+        <p>Firebase를 쓰신다고 했는데, 그러면 개인정보가 <strong>Google의 해외
+          서버에 저장</strong>됩니다. 이건 위탁과 별개로 <strong>국외 이전</strong>에
+          해당하고, 별도의 고지와 동의 근거가 필요합니다.</p>
+        <p>그런데 지금 동의 항목을 보면 국외 이전에 관한 항목이 없습니다.
+          "계정 정보 · 프로필 · 훈련 기록 · 신체 정보"만 있습니다. 이 상태로
+          서버에 올리면 <strong>동의받은 범위를 벗어난 처리</strong>가 됩니다.</p>
+        <div class="quote">
+          조치 — 동의 화면에 국외 이전 항목을 추가하고,
+          이전받는 자 · 국가 · 항목 · 목적 · 보유기간을 고지해야 합니다.
+          Firebase 프로젝트의 실제 리전을 먼저 확인하세요.
+        </div>
+      </div>
+    </div>
+
+    <div class="turn mine">
+      <div class="who">데이빗</div>
+      <div class="bubble">
+        <p>리전을 한국으로 잡으면 국외 이전이 아닌 게 되나요?</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <p>저장 위치를 서울 리전으로 두면 <strong>저장</strong>에 관한 부담은
+          줄어듭니다. 다만 그것만으로 끝나지 않습니다.</p>
+        <ul>
+          <li>운영·장애 대응 과정에서 해외 인력이 접근할 수 있는지</li>
+          <li>인증(Firebase Auth), 앱 무결성(App Check) 같은 부가 서비스의
+            처리 위치가 저장소와 다른지</li>
+          <li><strong>생성형 AI 처리 위치</strong> — 이게 다음 지적 사항입니다</li>
+        </ul>
+        <p>구글과 체결하는 데이터 처리 약관에서 실제 처리 지역을 확인하고,
+          그 결과를 방침에 그대로 적으셔야 합니다. "확인 후 기재"로 표시해
+          둔 자리가 그 부분입니다.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag crit">중대 02</span> AI에 들어가는 민감정보</div>
+        <p>이게 제일 걸립니다. AI 코치가 아이의 <strong>종목·나이·신체 정보·통증
+          부위</strong>를 함께 넣어 답변을 만든다고 하셨죠. 통증 정보는 건강에
+          관한 정보, 즉 <strong>민감정보</strong>입니다.</p>
+        <p>지금 구조에서는 아이가 "어깨가 아파요"라고 입력하면 그 문장이 그대로
+          외부 AI 서비스로 전송됩니다. 정리하면 <strong>미성년자의 민감정보를
+          국외로 이전</strong>하는 것입니다. 동의 항목 어디에도 이 내용이 없습니다.</p>
+        <div class="quote">
+          조치 — ① 민감정보 동의 항목에 "AI 답변 생성을 위한 처리"를 명시,
+          ② AI 전송 전 통증·건강 관련 표현을 제거하거나 비식별화,
+          ③ 민감정보 동의를 하지 않은 이용자는 해당 정보를 AI에 넣지 않도록
+          코드에서 분기. 셋 중 최소 ①과 ③은 필요합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="turn mine">
+      <div class="who">데이빗</div>
+      <div class="bubble">
+        <p>③번이 현실적이겠네요. 동의 안 한 사람은 통증 정보를 프롬프트에서
+          빼면 되니까요.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <p>맞습니다. 그리고 이건 화면 문구가 아니라 <strong>코드에서 막아야</strong>
+          합니다. 지금 동의 저장소에 <span class="code">isAgreed('health')</span>가
+          이미 있으니, AI 프롬프트를 만드는 지점에서 이 값을 보고 통증 관련
+          항목을 통째로 빼는 분기를 넣으시면 됩니다.</p>
+        <p>덧붙여 아이가 자유 입력으로 "어깨 아파요"라고 쓰는 건 막을 수
+          없습니다. 그건 이용자 본인이 스스로 제공한 것이라 성격이 다르지만,
+          그렇더라도 <strong>AI 대화 내용이 어디로 가는지</strong>는 고지해야
+          합니다.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag crit">중대 03</span> 법정대리인 동의 확인</div>
+        <p>만 14세 미만이면 법정대리인 동의를 받도록 만드신 건 맞습니다.
+          그런데 확인 방법이 <strong>보호자 성함을 아이가 입력하는 것</strong>뿐입니다.</p>
+        <p>아이가 부모 이름 세 글자를 적고 체크박스를 누르면 통과합니다.
+          이건 "동의를 받았다"고 주장하기 어렵습니다. 분쟁이 생기면 회사가
+          확인 노력을 다했는지를 다투게 되는데, 성함 입력만으로는 방어가
+          안 됩니다.</p>
+        <div class="quote">
+          조치 — 실무에서 통용되는 방법 중 택일:
+          ① 보호자 휴대전화 본인확인, ② 보호자 계정으로 로그인 후 승인,
+          ③ 보호자에게 인증 링크 발송. 이 앱은 <strong>이미 부모 연동 기능이
+          있으니</strong> ②가 가장 자연스럽습니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="turn mine">
+      <div class="who">데이빗</div>
+      <div class="bubble">
+        <p>연동 코드로 부모가 들어오면 그때 동의를 받는 방식으로요?</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <p>그게 깔끔합니다. 다만 <strong>순서</strong>가 중요합니다. 지금은
+          아이가 먼저 가입하고 나중에 부모를 연동하는 흐름인데, 만 14세 미만이면
+          <strong>부모 승인이 있기 전까지는 서버에 올리면 안 됩니다.</strong></p>
+        <p>다행히 지금 코드가 그 상태를 표현할 수 있게 돼 있습니다.
+          <span class="code">canStoreOnServer</span>가 법정대리인 동의 시각이
+          비어 있으면 false를 돌려주니, 승인 전까지는 기기에만 저장하고
+          승인 후 업로드하는 구조로 가면 됩니다.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag crit">중대 04</span> 탈퇴와 파기</div>
+        <p>방침에는 "탈퇴 시 지체 없이 파기"라고 적혀 있는데, <strong>앱에
+          탈퇴 기능이 없습니다.</strong> 삭제를 요구할 방법이 없는 상태로
+          방침에만 적어 두면, 그 자체가 지적 대상입니다.</p>
+        <p>열람·정정·삭제·처리정지 요구권은 방침에 문장으로 적는 것으로
+          끝나지 않고 <strong>실제로 행사할 수 있어야</strong> 합니다.
+          법정대리인도 아이를 대신해 행사할 수 있어야 하고요.</p>
+        <div class="quote">
+          조치 — 마이페이지에 ① 계정 삭제(서버 데이터 포함), ② 동의 철회,
+          ③ 내 데이터 내려받기를 넣으세요. 부모 앱에서도 자녀에 대해
+          같은 요구를 할 수 있어야 합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">그 밖의 지적</div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag high">높음 05</span> 아동용 표현</div>
+        <p>만 14세 미만을 대상으로 하면 <strong>아동이 이해할 수 있는 쉬운
+          표현</strong>으로 별도 고지해야 합니다. 지금 동의 화면은 성인 기준
+          문장입니다. "개인정보 수집·이용에 동의합니다"는 초등학생에게 통하지
+          않습니다.</p>
+        <p>아동용 요약본을 따로 두시길 권합니다. 문장을 짧게, 그림이나 아이콘을
+          곁들여서요.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag high">높음 06 · 07</span> 보호책임자와 창구</div>
+        <p>개인정보 보호책임자를 지정하고 <strong>성명·직책·연락처를 방침에
+          공개</strong>해야 합니다. 1인 사업자면 대표자가 겸할 수 있습니다.
+          초안에 자리를 비워 뒀는데, 비운 채로 공개하면 안 됩니다.</p>
+        <p>그리고 그 연락처가 실제로 응답해야 합니다. 문의가 오면 지체 없이
+          처리해야 하고, 처리 기록도 남기셔야 합니다.</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag mid">중간 08 · 09</span> 접근권한과 보유기간</div>
+        <p>카메라·사진·알림 권한은 <strong>요청하기 전에</strong> 무엇에 쓰는지
+          고지하고, 필수와 선택을 구분해야 합니다. 지금은 OS 권한 팝업이 바로
+          뜨는 구조로 보입니다. 온보딩에 접근권한 안내 화면을 한 장 넣으세요.</p>
+        <p>보유 기간이 전부 "탈퇴 시까지"인 것도 다시 보셔야 합니다. 이용
+          기록처럼 목적이 끝나면 지워도 되는 항목은 별도 기간을 정하는 게
+          맞습니다. 장기 미접속 계정 처리 방침도 정하시고요.</p>
+      </div>
+    </div>
+
+    <div class="turn mine">
+      <div class="who">데이빗</div>
+      <div class="bubble">
+        <p>나중에 데이터를 B2B로 판매하거나 제공하는 모델도 생각하고 있습니다.
+          지금 방침에 미리 넣어둘 수 있나요?</p>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag mid">중간 10</span> B2B 데이터 활용</div>
+        <p>미리 넣어 두는 방식은 권하지 않습니다. 이유가 세 가지입니다.</p>
+        <ul>
+          <li><strong>제3자 제공은 별도 동의 사항</strong>입니다. 처리방침에
+            적어 두는 것과 동의를 받는 것은 다릅니다. 방침에 문장이 있어도
+            동의를 안 받았으면 제공할 수 없습니다.</li>
+          <li><strong>미성년자 데이터</strong>입니다. 아동의 개인정보를 상업적
+            목적으로 제3자에게 제공하는 건 규제기관이 가장 민감하게 보는
+            영역입니다.</li>
+          <li>지금 학부모 안내서에는 "기록이 기기 밖으로 나가지 않는다"고
+            적혀 있습니다. 여기에 데이터 판매 문구가 같이 있으면 <strong>앞뒤가
+            맞지 않아</strong> 오히려 신뢰를 잃습니다.</li>
+        </ul>
+        <p>대안은 <strong>가명처리</strong>입니다. 특정 개인을 알아볼 수 없게
+          처리한 정보는 통계 작성이나 연구 목적으로 동의 없이 활용할 여지가
+          있습니다. 다만 가명처리의 적정성, 재식별 위험, 결합 제한 등 따져야
+          할 게 많아 이 단계에서 결론 낼 사안은 아닙니다.</p>
+        <div class="quote">
+          권고 — B2B는 서비스가 자리 잡고 이용자 규모가 생긴 뒤,
+          별도의 동의 절차와 가명처리 방안을 갖춰 다시 검토하세요.
+          지금 방침에 넣는 것은 실익 없이 위험만 키웁니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="turn">
+      <div class="who">검토자</div>
+      <div class="bubble">
+        <div class="finding"><span class="tag ok">양호 11</span> 잘 된 부분</div>
+        <p>지적만 드렸으니 유지하셔야 할 것도 말씀드립니다.</p>
+        <ul>
+          <li>수집 항목을 <strong>코드 한 곳</strong>에 정의하고 화면·방침이
+            같은 목록을 보게 한 구조. 항목이 바뀌면 버전이 올라가고 재동의를
+            받는 장치까지 있습니다.</li>
+          <li>통증 정보를 <strong>민감정보로 분리</strong>해 선택 동의로 둔 점.
+            전부 필수로 묶는 사례가 훨씬 많습니다.</li>
+          <li>보안 규칙이 <strong>기본 거부</strong>이고, 동의 문서를 읽어
+            서버에서 한 번 더 막는 점. 클라이언트만 믿지 않는 설계입니다.</li>
+          <li>자세 분석 영상을 기기 밖으로 내보내지 않는 점.</li>
+        </ul>
+        <p>정리하면, <strong>중대 4건을 처리하기 전에는 서버 저장을 켜지
+          마시고</strong>, 그 뒤에 변호사 검토를 한 번 받으시면 됩니다.
+          지금 상태로 자문을 받으셔도 같은 지적이 나올 겁니다.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p style="margin:0 0 6px"><strong>다음 단계</strong></p>
+    <p style="margin:0">
+      ① 중대 4건 조치 → ② Firebase 리전·처리 지역 확인 → ③ 방침 빈칸 작성
+      → ④ 개인정보보호 전문 변호사 검토 → ⑤ 방침 URL 공개 후 스토어 제출
+    </p>
+  </footer>
+
+</div>

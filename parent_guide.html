@@ -1,0 +1,1423 @@
+<title>엘리트 루틴 케어 학부모 안내서</title>
+
+<style>
+  /* ---------------------------------------------------------------
+     토큰 — 밝은 지면이 기본. 화면에서 어둡게 볼 수도 있으므로
+     세 상태(명시 light / 명시 dark / 미지정+OS dark)를 모두 정의한다.
+     --------------------------------------------------------------- */
+  :root {
+    --paper: #FBFCFE;
+    --card: #FFFFFF;
+    --card-alt: #F3F6FC;
+    --ink: #14213D;
+    --ink-body: #3D4A63;
+    --ink-muted: #6B7896;
+    --ink-faint: #97A2BB;
+    --rule: #D6DEEC;
+    --brand: #1E4FBF;
+    --brand-soft: #E8EFFC;
+    --brand-deep: #122C6E;
+    --flame: #E8590C;
+    --flame-soft: #FFF1E7;
+    --good: #0E7C55;
+    --good-soft: #E3F5EE;
+    --shadow: 0 1px 2px rgba(20, 33, 61, .06), 0 8px 24px rgba(20, 33, 61, .05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0C1220;
+      --card: #141C2E;
+      --card-alt: #1B2437;
+      --ink: #EEF2F9;
+      --ink-body: #C4CDDE;
+      --ink-muted: #94A0B8;
+      --ink-faint: #6B7896;
+      --rule: #2A3548;
+      --brand: #7BA7F5;
+      --brand-soft: #17233A;
+      --brand-deep: #9CC0FF;
+      --flame: #FF9553;
+      --flame-soft: #2A1B10;
+      --good: #4ECFA0;
+      --good-soft: #102A20;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0C1220;
+    --card: #141C2E;
+    --card-alt: #1B2437;
+    --ink: #EEF2F9;
+    --ink-body: #C4CDDE;
+    --ink-muted: #94A0B8;
+    --ink-faint: #6B7896;
+    --rule: #2A3548;
+    --brand: #7BA7F5;
+    --brand-soft: #17233A;
+    --brand-deep: #9CC0FF;
+    --flame: #FF9553;
+    --flame-soft: #2A1B10;
+    --good: #4ECFA0;
+    --good-soft: #102A20;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+  }
+
+  /* 한글 웹폰트는 수 MB라 인라인이 불가능하다. CSP가 CDN도 막으므로
+     시스템 스택을 쓰고, 굵기·크기·자간으로 위계를 만든다. */
+  :root {
+    --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+      'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, sans-serif;
+    --mono: 'SF Mono', 'JetBrains Mono', 'D2Coding', ui-monospace, Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink-body);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .doc {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 28px 96px;
+  }
+
+  /* --- 표지 --------------------------------------------------- */
+  .cover {
+    padding: 88px 0 56px;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .brandmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    color: var(--brand);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .brandmark .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--flame);
+  }
+
+  h1 {
+    font-size: clamp(38px, 7vw, 62px);
+    line-height: 1.1;
+    letter-spacing: -.035em;
+    font-weight: 900;
+    color: var(--ink);
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: clamp(17px, 2.4vw, 20px);
+    line-height: 1.65;
+    color: var(--ink-body);
+    max-width: 60ch;
+    margin: 0 0 32px;
+  }
+
+  .cover-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-family: var(--mono);
+  }
+
+  /* --- 섹션 --------------------------------------------------- */
+  section { padding-top: 64px; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 12px;
+  }
+
+  /* 번호는 장식이 아니라 참조용이다. "3장 참고"처럼 부를 수 있어야 한다. */
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--flame);
+    letter-spacing: .08em;
+    flex: none;
+  }
+
+  h2 {
+    font-size: clamp(24px, 3.6vw, 32px);
+    line-height: 1.25;
+    letter-spacing: -.025em;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -.015em;
+    color: var(--ink);
+    margin: 36px 0 10px;
+  }
+
+  p { margin: 0 0 16px; max-width: 68ch; }
+
+  .sec-intro { color: var(--ink-muted); margin: 14px 0 28px; }
+
+  strong { color: var(--ink); font-weight: 700; }
+
+  .mark {
+    background: var(--flame-soft);
+    color: var(--ink);
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* --- 카드 --------------------------------------------------- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .grid { display: grid; gap: 14px; }
+  .grid.two { grid-template-columns: repeat(2, 1fr); }
+  .grid.three { grid-template-columns: repeat(3, 1fr); }
+  .grid.four { grid-template-columns: repeat(4, 1fr); }
+
+  @media (max-width: 700px) {
+    .grid.two, .grid.three, .grid.four { grid-template-columns: 1fr; }
+  }
+
+  .feat { display: flex; flex-direction: column; gap: 6px; }
+  .feat .ico { font-size: 24px; line-height: 1; }
+  .feat .name { font-weight: 800; color: var(--ink); font-size: 15px; }
+  .feat .desc { font-size: 13.5px; line-height: 1.6; color: var(--ink-muted); }
+
+  /* --- 흐름도 (하루 사용) -------------------------------------- */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 24px 0;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--card);
+  }
+
+  .flow-step {
+    padding: 20px 18px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .flow-step:last-child { border-right: 0; }
+
+  .flow-when {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--brand);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .flow-what { font-weight: 800; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+  .flow-why { font-size: 13px; line-height: 1.55; color: var(--ink-muted); }
+
+  @media (max-width: 700px) {
+    .flow { grid-template-columns: 1fr; }
+    .flow-step { border-right: 0; border-bottom: 1px solid var(--rule); }
+    .flow-step:last-child { border-bottom: 0; }
+  }
+
+  /* --- 재화 구조 도식 ----------------------------------------- */
+  .economy {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    gap: 0;
+    margin: 24px 0;
+  }
+
+  .econ-col {
+    border: 2px solid var(--rule);
+    border-radius: 14px;
+    padding: 20px;
+    background: var(--card);
+  }
+  .econ-col.train { border-color: var(--brand); }
+  .econ-col.play { border-color: var(--flame); }
+
+  .econ-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    font-family: var(--mono);
+  }
+  .econ-col.train .econ-tag { background: var(--brand-soft); color: var(--brand); }
+  .econ-col.play .econ-tag { background: var(--flame-soft); color: var(--flame); }
+
+  .econ-title { font-weight: 900; color: var(--ink); font-size: 17px; margin-bottom: 10px; }
+  .econ-list { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.75; color: var(--ink-muted); }
+  .econ-list li::marker { color: var(--ink-faint); }
+
+  .econ-gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    text-align: center;
+    min-width: 128px;
+  }
+  .econ-gate .arrow {
+    font-size: 22px;
+    color: var(--flame);
+    line-height: 1;
+  }
+  .econ-gate .label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-top: 6px;
+    line-height: 1.45;
+  }
+  .econ-gate .sub { font-size: 11.5px; color: var(--ink-muted); margin-top: 3px; }
+
+  .econ-block {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--card-alt);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-body);
+  }
+  .econ-block b { color: var(--ink); }
+
+  @media (max-width: 700px) {
+    .economy { grid-template-columns: 1fr; gap: 12px; }
+    .econ-gate { padding: 4px 0; }
+    .econ-gate .arrow { transform: rotate(90deg); }
+  }
+
+  /* --- 티어 진행 ---------------------------------------------- */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 20px 0 8px;
+  }
+  .tier {
+    text-align: center;
+    padding: 16px 8px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+  }
+  .tier .medal { font-size: 22px; line-height: 1; }
+  .tier .tname {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 6px;
+    letter-spacing: .04em;
+  }
+  .tier .tdays { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+  @media (max-width: 700px) { .tiers { grid-template-columns: repeat(3, 1fr); } }
+
+  /* --- 주간 목표 점 ------------------------------------------- */
+  .weekdots { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+  .wd {
+    width: 46px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .wd .bead {
+    height: 34px;
+    border-radius: 9px;
+    border: 1.5px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    margin-bottom: 5px;
+    background: var(--card);
+  }
+  .wd.done .bead { background: var(--brand-soft); border-color: var(--brand); }
+  .wd.rest .bead { background: var(--flame-soft); border-color: var(--flame); }
+
+  /* --- 표 ----------------------------------------------------- */
+  .tablewrap { overflow-x: auto; margin: 20px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 520px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--ink);
+    white-space: nowrap;
+  }
+
+  tbody th { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* --- 안전 항목 ---------------------------------------------- */
+  .safe {
+    display: flex;
+    gap: 16px;
+    padding: 20px 22px;
+    border-radius: 14px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--good);
+  }
+  .safe .badge {
+    flex: none;
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: var(--good-soft);
+    color: var(--good);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 17px;
+  }
+  .safe h4 { margin: 0 0 5px; font-size: 16px; font-weight: 800; color: var(--ink); }
+  .safe p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--ink-body); }
+
+  /* --- 콜아웃 ------------------------------------------------- */
+  .note {
+    border-radius: 12px;
+    padding: 18px 20px;
+    background: var(--brand-soft);
+    border: 1px solid var(--rule);
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 22px 0;
+  }
+  .note .note-title {
+    font-weight: 800;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  /* --- 시작하기 단계 ------------------------------------------ */
+  .steps { counter-reset: s; display: grid; gap: 10px; margin: 22px 0; }
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    align-items: flex-start;
+  }
+  .step::before {
+    counter-increment: s;
+    content: counter(s);
+    flex: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-body h4 { margin: 0 0 4px; font-size: 15px; font-weight: 800; color: var(--ink); }
+  .step-body p { margin: 0; font-size: 13.5px; color: var(--ink-muted); }
+
+  /* --- FAQ ---------------------------------------------------- */
+  .qa { border-top: 1px solid var(--rule); padding: 18px 0; }
+  .qa:last-child { border-bottom: 1px solid var(--rule); }
+  .qa .q {
+    font-weight: 800;
+    color: var(--ink);
+    font-size: 15.5px;
+    margin: 0 0 6px;
+    display: flex;
+    gap: 10px;
+  }
+  .qa .q .mk { color: var(--flame); font-family: var(--mono); flex: none; }
+  .qa .a { margin: 0 0 0 26px; font-size: 14px; line-height: 1.7; color: var(--ink-body); }
+
+  /* --- 화면 배치 --------------------------------------------- */
+  .screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 22px 0; }
+  .screen {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .screen .bar {
+    padding: 9px 12px;
+    background: var(--card-alt);
+    border-bottom: 1px solid var(--rule);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .screen ul { margin: 0; padding: 12px 12px 14px 28px; font-size: 13px; line-height: 1.7; color: var(--ink-muted); }
+
+  @media (max-width: 700px) { .screens { grid-template-columns: 1fr; } }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 24px;
+    border-top: 3px solid var(--ink);
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  /* --- 인쇄 --------------------------------------------------- */
+  @page { margin: 16mm 14mm; }
+
+  @media print {
+    /* 인쇄는 항상 밝은 지면으로. 어두운 배경이 잉크를 다 먹는다. */
+    :root, :root[data-theme="dark"] {
+      --paper: #FFFFFF;
+      --card: #FFFFFF;
+      --card-alt: #F3F6FC;
+      --ink: #14213D;
+      --ink-body: #3D4A63;
+      --ink-muted: #5B6884;
+      --ink-faint: #8A96AE;
+      --rule: #C8D2E4;
+      --brand: #1E4FBF;
+      --brand-soft: #EDF3FD;
+      --flame: #C7490A;
+      --flame-soft: #FDF0E7;
+      --good: #0B6746;
+      --good-soft: #E9F6F1;
+      --shadow: none;
+    }
+    body { font-size: 11.5pt; line-height: 1.6; }
+    .doc { max-width: none; padding: 0; }
+    .cover { padding: 0 0 28px; }
+    section { padding-top: 30px; break-inside: auto; }
+    h2, h3 { break-after: avoid; }
+    .card, .safe, .step, .flow, .economy, .tablewrap, .note, .qa {
+      break-inside: avoid;
+    }
+    .page-break { break-before: page; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+
+<div class="doc">
+
+  <header class="cover">
+    <div class="brandmark"><span class="dot"></span> Elite Routine Care</div>
+    <h1>학부모 안내서</h1>
+    <p class="lede">
+      아이가 매일 훈련을 기록하고, 부모님은 그 과정을 함께 봅니다.
+      이 문서는 앱이 무엇을 하는지, 그리고 <strong>왜 아이가 무리하지 않도록
+      설계했는지</strong>를 설명합니다.
+    </p>
+    <div class="cover-meta">
+      <span>유소년 엘리트 선수 훈련 관리</span>
+      <span>38개 종목 지원</span>
+      <span>2026년 8월 기준</span>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>왜 이 앱을 만들었나</h2>
+    </div>
+    <p class="sec-intro">운동하는 아이를 둔 부모님이 가장 많이 하는 걱정 세 가지에서 출발했습니다.</p>
+
+    <div class="grid three">
+      <div class="card feat">
+        <span class="ico">🩹</span>
+        <span class="name">다칠까 봐 불안하다</span>
+        <span class="desc">성장기에는 무리한 반복이 성장판과 관절에 부담을 줍니다.
+          그런데 아이는 쉬면 뒤처진다고 느낍니다.</span>
+      </div>
+      <div class="card feat">
+        <span class="ico">📋</span>
+        <span class="name">기록이 남지 않는다</span>
+        <span class="desc">키·몸무게·기록·통증이 수첩과 기억에 흩어져 있어,
+          정작 필요할 때 흐름을 보여줄 수 없습니다.</span>
+      </div>
+      <div class="card feat">
+        <span class="ico">🗣️</span>
+        <span class="name">대화가 잔소리가 된다</span>
+        <span class="desc">물어볼 것이 "오늘 몇 개 했어?"뿐이면
+          관심이 압박으로 전해집니다.</span>
+      </div>
+    </div>
+
+    <p style="margin-top:24px">
+      그래서 이 앱은 <strong>기록을 습관으로 만들고</strong>,
+      <strong>쉬는 것도 훈련으로 인정하며</strong>,
+      부모님께는 숫자가 아니라 <strong>대화의 실마리</strong>를 드리는 쪽으로 만들었습니다.
+    </p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>한눈에 보기</h2>
+    </div>
+    <p class="sec-intro">앱은 선수용 화면과 부모용 화면으로 나뉩니다. 같은 기록을 서로 다른 각도에서 봅니다.</p>
+
+    <div class="screens">
+      <div class="screen">
+        <div class="bar">🏠 선수 — 홈</div>
+        <ul>
+          <li>루틴 불꽃(연속 달성)</li>
+          <li>오늘의 미션 · 주간 목표</li>
+          <li>투구수 (야구)</li>
+          <li>부모님 응원 메시지</li>
+          <li><b>훈련 부하</b> — 지금 무리인지 아닌지</li>
+          <li><b>내 최고 기록</b> 추이 그래프</li>
+          <li>목표 D-Day · 등급(티어) · 대회 D-Day</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <div class="bar">📔 선수 — 하단 6개 탭</div>
+        <ul>
+          <li>홈 · 캘린더 · 훈련 일지</li>
+          <li>AI 코치 상담(종목별)</li>
+          <li><b>아케이드</b> — 게임 6종</li>
+          <li><b>더보기</b> — 나머지가 다 여기</li>
+          <li class="sub">마이페이지 · 전국 랭킹 · 코인 상점</li>
+          <li class="sub">진학 포트폴리오 · 주간 리포트 · 자세 분석</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <div class="bar">👨‍👩‍👧 부모</div>
+        <ul>
+          <li>자녀 진행 상황 · 통증 알림</li>
+          <li>투구수 관리 (야구)</li>
+          <li>또래 대비 성장 · 예측 키</li>
+          <li><b>훈련 부하와 수면</b> — 부상 위험 신호</li>
+          <li>케어 기록 (수면·컨디션)</li>
+          <li>부상 기록 (발생→재활→복귀)</li>
+          <li>목표 함께 세우기</li>
+          <li>코치에게 보낼 리포트</li>
+          <li>진학 포트폴리오 · <b>실적표 PDF</b> · 훈련비 가계부</li>
+          <li>보호자 승인 (만 14세 미만)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="note-title">화면 색을 바꿀 수 있습니다</span>
+      마이페이지 &gt; 설정 &gt; 테마 선택에서 <strong>포카리 블루</strong>(밝은 화면)와
+      <strong>루카 나이트</strong>(짙은 남색 + 형광 라임)를 오갈 수 있습니다.
+      새벽 훈련이나 야간 경기 뒤에는 어두운 쪽이 눈에 편합니다. 색만이 아니라
+      버튼 모양과 제목까지 함께 바뀝니다.
+    </div>
+
+    <div class="note">
+      <span class="note-title">부모님 연동은 코드 한 번이면 끝납니다</span>
+      아이 앱의 마이페이지에 있는 6자리 연동 코드를 부모님 앱에 입력하면
+      그때부터 자녀의 기록이 보입니다. 별도 회원가입이나 서류가 필요 없습니다.
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>아이의 하루</h2>
+    </div>
+    <p class="sec-intro">앱은 하루에 3분이면 충분하도록 만들었습니다. 오래 붙잡아 두는 것이 목적이 아닙니다.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-when">MORNING</span>
+        <div class="flow-what">오늘의 미션 확인</div>
+        <div class="flow-why">오늘 할 일 3가지가 홈 맨 위에 뜹니다.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-when">TRAINING</span>
+        <div class="flow-what">루틴 완료</div>
+        <div class="flow-why">훈련을 마치면 불꽃이 켜지고 연속 일수가 올라갑니다.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-when">EVENING</span>
+        <div class="flow-what">일지 · 컨디션</div>
+        <div class="flow-why">오늘 한 것과 아픈 곳을 남깁니다. 부모님께 바로 전달됩니다.</div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-when">REWARD</span>
+        <div class="flow-what">아케이드</div>
+        <div class="flow-why">훈련으로 번 입장권으로 게임을 합니다.</div>
+      </div>
+    </div>
+
+    <p>
+      저녁 8시에 아직 남은 미션이 있으면 알림이 한 번 갑니다.
+      <strong>이미 다 끝냈으면 알림을 보내지 않습니다.</strong>
+      할 일을 다 한 아이에게 잔소리하는 알림은 곧 꺼지게 되니까요.
+    </p>
+  </section>
+
+  <!-- 4 -->
+  <section class="page-break">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>주요 기능</h2>
+    </div>
+
+    <h3>루틴 불꽃 — 연속 달성</h3>
+    <p>
+      훈련을 완료한 날이 이어지면 불꽃이 커집니다. 연속 일수에 따라 다섯 단계의
+      등급이 올라갑니다. 이 등급은 <strong>다른 아이와 비교한 순위가 아니라
+      본인의 꾸준함</strong>을 나타냅니다.
+    </p>
+
+    <div class="tiers">
+      <div class="tier"><div class="medal">🥉</div><div class="tname">BRONZE</div><div class="tdays">시작</div></div>
+      <div class="tier"><div class="medal">🥈</div><div class="tname">SILVER</div><div class="tdays">3일</div></div>
+      <div class="tier"><div class="medal">🥇</div><div class="tname">GOLD</div><div class="tdays">7일</div></div>
+      <div class="tier"><div class="medal">🛡️</div><div class="tname">PLATINUM</div><div class="tdays">15일</div></div>
+      <div class="tier"><div class="medal">💎</div><div class="tname">DIAMOND</div><div class="tdays">30일</div></div>
+    </div>
+
+    <h3>오늘의 미션과 주간 목표</h3>
+    <p>
+      매일 3가지 미션이 주어집니다. 두 가지는 고정(루틴 완료·훈련 일지),
+      나머지 한 자리는 <strong>요일마다 바뀝니다</strong>. 매일 같은 목록이면
+      2주 만에 질리기 때문입니다.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>요일</th><th>세 번째 미션</th><th>이유</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>월 · 수 · 금</th><td>피지컬 측정</td><td>성장 그래프의 재료를 꾸준히 모읍니다</td></tr>
+          <tr><th>화 · 목 · 토</th><td>AI 코치에게 질문</td><td>훈련 방법을 스스로 찾아보게 합니다</td></tr>
+          <tr><th>일</th><td>회복일 기록</td><td>주 하루는 쉬도록 권합니다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      주간 목표는 <strong>7일이 아니라 5일</strong>입니다. 매일을 요구하면
+      쉬는 날이 곧 실패가 되기 때문입니다. <span class="mark">회복일도 채운 날로 셉니다.</span>
+    </p>
+
+    <div class="weekdots">
+      <div class="wd done"><div class="bead">✓</div>월</div>
+      <div class="wd done"><div class="bead">✓</div>화</div>
+      <div class="wd rest"><div class="bead">🌙</div>수</div>
+      <div class="wd done"><div class="bead">✓</div>목</div>
+      <div class="wd done"><div class="bead">✓</div>금</div>
+      <div class="wd done"><div class="bead">✓</div>토</div>
+      <div class="wd"><div class="bead"></div>일</div>
+    </div>
+    <p style="font-size:13.5px;color:var(--ink-muted);margin-top:-4px">
+      수요일에 회복일을 써도 5일을 채워 목표를 달성한 예입니다.
+    </p>
+
+    <h3>AI 코치</h3>
+    <p>
+      종목과 포지션, 나이, 최근 기록을 알고 답하는 상담입니다. 야구 투수에게는
+      투구 수와 어깨·팔꿈치 이야기를, 수영 선수에게는 기록 단축과 어깨 부담을
+      기준으로 답합니다. 통증을 이야기하면 <strong>휴식과 병원 진료를 먼저
+      권하도록</strong> 만들었습니다.
+    </p>
+
+    <h3>피지컬 측정과 성장 기록</h3>
+    <p>
+      키·몸무게·발 사이즈, 그리고 종목별 주요 기록(구속·기록·비거리 등)을 남기면
+      시간에 따른 변화가 그래프로 그려집니다. <strong>실제로 입력한 값만
+      기록됩니다.</strong> 앱이 임의로 만들어 낸 값은 하나도 들어가지 않습니다.
+    </p>
+
+    <h3>카메라 자세 분석</h3>
+    <p>
+      전면 카메라로 동작을 인식해 좌우 균형과 안정성을 점수로 보여줍니다.
+      영상은 <strong>기기 밖으로 나가지 않고 저장되지도 않습니다.</strong>
+    </p>
+
+    <h3>주간 AI 리포트</h3>
+    <p>
+      한 주의 훈련·컨디션·성장 기록을 모아 문서 형태로 정리합니다. 부모님께
+      공유하거나 지도자에게 보여줄 수 있습니다.
+    </p>
+
+    <h3>업적</h3>
+    <p>
+      13개의 업적이 다섯 가지 축을 봅니다. 한 축만 있으면 그 축을 못 채우는
+      아이는 모을 것이 없어지기 때문입니다.
+    </p>
+    <div class="grid four">
+      <div class="card feat"><span class="ico">🔥</span><span class="name">연속 달성</span><span class="desc">3 · 7 · 30 · 60일</span></div>
+      <div class="card feat"><span class="ico">⭐</span><span class="name">누적 포인트</span><span class="desc">500 · 2,000 · 5,000점</span></div>
+      <div class="card feat"><span class="ico">📝</span><span class="name">훈련 일지</span><span class="desc">5 · 30개</span></div>
+      <div class="card feat"><span class="ico">📏</span><span class="name">측정 기록</span><span class="desc">5 · 20회</span></div>
+    </div>
+  
+    <h3>팀 코드와 리더보드 (선택)</h3>
+    <p>
+      감독/코치가 팀을 만들면 6자리 코드가 생기고, 선수가 참여하면 코치 화면에
+      <strong>이름·종목·연속 달성일·오늘 완료 여부</strong>만 요약으로 보입니다.
+      일지·측정 기록·통증 부위는 공유되지 않습니다. 리더보드는 참여를 켠
+      선수끼리 시즌 루틴 점수로만 겨루며, 서버에는 <strong>가린 이름(김**)</strong>만
+      저장됩니다. 순위를 지어내지 않습니다 — 참가자가 3명이면 3명이 전부입니다.
+    </p>
+</section>
+
+  <!-- 5 -->
+  <section class="page-break">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>부모님이 함께 합니다</h2>
+    </div>
+    <p class="sec-intro">
+      이 앱에서 부모님은 구경꾼이 아닙니다. 아이가 기록하는 것과 별도로,
+      부모님만 할 수 있는 일곱 가지가 있습니다.
+    </p>
+
+    <div class="grid" style="gap:12px">
+      <div class="safe">
+        <div class="badge">⚾</div>
+        <div>
+          <h4>투구수 관리 (야구)</h4>
+          <p>아이는 시합에서 빠질까 봐 아프다고 말하지 않습니다. 그래서 통증을
+            묻는 대신 던진 공을 셉니다. MLB Pitch Smart의 연령별 하루 상한과
+            필수 휴식일을 그대로 적용해, 상한이 가까우면 아이와 부모님 화면이
+            함께 경고로 바뀝니다. <strong>"오늘은 그만 던지면 안 될까요"를 부모님이
+            말하면 유난이지만, 이 화면을 지도자께 보여드리면 근거가 됩니다.</strong></p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">📏</div>
+        <div>
+          <h4>또래 대비 성장</h4>
+          <p>질병관리청 성장도표 기준으로 또래 백분위와 예측 최종 키를
+            보여줍니다. 의학적 진단이 아니라 "병원에 가볼까"를 판단할
+            실마리이며, 화면에 출처와 한계를 항상 함께 적습니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">🩺</div>
+        <div>
+          <h4>케어 기록</h4>
+          <p>어젯밤 수면, 오늘 컨디션, 아파 보이는 부위를 <strong>부모님 눈으로</strong>
+            기록합니다. 평균 수면이 성장기 권장(8시간)에 못 미치거나 통증이
+            잦으면 경고로 알려드립니다. 이 기록은 부모님 화면에만 보입니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">🩹</div>
+        <div>
+          <h4>부상 기록</h4>
+          <p>다치면 발생 → 재활 중 → 복귀를 기록합니다. <strong>재활 중에는
+            회복일 주 1회 제한이 풀려 아이의 연속 기록이 끊기지 않습니다</strong> —
+            다친 아이에게 "이번 주 회복일은 이미 썼다"고 말하는 것은 아파도
+            훈련하라는 말과 같기 때문입니다. 부상 기간은 성장 타임라인에도
+            표시되어 병원 진료 자료가 됩니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">🎯</div>
+        <div>
+          <h4>목표 함께 세우기</h4>
+          <p>부모님은 목표를 <strong>제안</strong>하고, 아이가 받아들여야 목표가
+            됩니다. 자기가 고른 목표만 아이를 움직이기 때문입니다.
+            거절도 버튼 하나로 할 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">📋</div>
+        <div>
+          <h4>코치에게 보낼 리포트</h4>
+          <p>한 주 훈련·컨디션·성장을 AI가 한 장으로 정리합니다. 부모님이
+            만들어서 지도자께 카톡으로 바로 보낼 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">🎓</div>
+        <div>
+          <h4>진학 포트폴리오</h4>
+          <p>대회가 끝날 때마다 실적 성격(수상·입상·기록·출전)과 함께 한 줄씩
+            기록해 두면, 실적표(텍스트)나 <strong>카톡으로 보내기 좋은 실적 카드
+            이미지</strong>로 내보냅니다. 예정 대회를 등록하면 아이 홈에
+            <strong>D-Day</strong>가 떠서 훈련에 마감이 생깁니다. 앱에 기록된
+            사실만 담고, 공식 증빙은 대회 주최 측 서류를 따른다고 명시합니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">💸</div>
+        <div>
+          <h4>훈련비 가계부</h4>
+          <p>레슨비·대회비·원정·장비를 기록하면 월·연 합계와 "올해 어디에
+            썼나"가 보입니다. 다른 가정과 비교하는 기능은 넣지 않았습니다 —
+            근거 없는 평균은 불안만 만들기 때문입니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">📈</div>
+        <div>
+          <h4>성장·케어 타임라인</h4>
+          <p>키 성장 곡선 위에 통증 관찰일과 주간 투구량을 겹쳐 보여줍니다.
+            성장기에 훈련량이 몰리면 통증이 따라오는 것을 눈으로 확인할 수
+            있고, <strong>병원 진료 때 그대로 보여줄 수 있는 자료</strong>가 됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="page-break">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>다치기 전에 알려 드립니다</h2>
+    </div>
+    <p class="sec-intro">
+      이 앱이 처음부터 하려던 일입니다. 이제 숫자로 말씀드립니다.
+    </p>
+
+    <p>
+      <strong>훈련 부하</strong>는 최근 7일 훈련량을 지난 4주 평균과 견줍니다.
+      "얼마나 했나"보다 <strong>"얼마나 갑자기 늘렸나"</strong>가 부상을
+      부르기 때문입니다. 0.8~1.3배가 안전 구간이고, 1.5배를 넘으면 부상이
+      몰리는 구간이라고 알려 드립니다. 스포츠 과학에서 널리 쓰는 방식입니다.
+    </p>
+
+    <p>
+      아이가 훈련 일지에 <strong>얼마나 힘들었는지(1~10)와 몇 분</strong>을
+      탭 두 번으로 넣으면 쌓입니다. 2주쯤 모이면 판정이 시작됩니다. 사흘치로
+      "위험합니다"라고 말하면 겁주기여서 그렇습니다.
+    </p>
+
+    <p>
+      <strong>수면도 함께 봅니다.</strong> 성장기 선수가 8시간 아래로 자면
+      훈련량이 적당해도 다치기 쉽습니다. 최근 7일 평균이 8시간 아래면 부하
+      카드에 따로 표시됩니다.
+    </p>
+
+    <p>
+      <strong>진학 실적표는 PDF로 나갑니다.</strong> 더보기 → 진학
+      포트폴리오에서 대회를 적어 두면, 인적사항·대회 실적·출전 예정·신체
+      기록·훈련 성실도가 담긴 A4 한 장을 만들어 학교나 팀에 바로 보낼 수
+      있습니다.
+    </p>
+
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>게임이 들어 있는 이유</h2>
+    </div>
+    <p class="sec-intro">
+      앱 안에 미니게임 6종이 있습니다. 부모님이 가장 걱정하실 부분이라 구조를
+      그대로 공개합니다.
+    </p>
+
+    <p>
+      핵심은 하나입니다. <strong>게임은 훈련의 보상이지, 훈련과 경쟁하지
+      않습니다.</strong> 게임 입장권은 오직 훈련으로만 생기고, 게임을 아무리 잘해도
+      등급은 1도 오르지 않습니다.
+    </p>
+
+    <div class="economy">
+      <div class="econ-col train">
+        <span class="econ-tag">훈련으로만</span>
+        <div class="econ-title">🔥 불꽃 포인트</div>
+        <ul class="econ-list">
+          <li>루틴 완료 · 훈련 일지</li>
+          <li>피지컬 측정 · 회복일 기록</li>
+          <li>AI 코치 질문</li>
+        </ul>
+        <div class="econ-block"><b>등급과 순위에 반영됩니다.</b></div>
+      </div>
+
+      <div class="econ-gate">
+        <div class="arrow">→</div>
+        <div class="label">입장권</div>
+        <div class="sub">훈련해야<br>생깁니다</div>
+      </div>
+
+      <div class="econ-col play">
+        <span class="econ-tag">게임으로만</span>
+        <div class="econ-title">🪙 게임 코인</div>
+        <ul class="econ-list">
+          <li>합치기 게임 4종</li>
+          <li>폼 챌린지(실제 운동)</li>
+        </ul>
+        <div class="econ-block"><b>꾸미기에만 씁니다.</b> 등급에는 영향이 없습니다.</div>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>게임</th><th>내용</th><th>한 판</th><th>특징</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>⚾ 홈런 챌린지</th>
+            <td>날아오는 공을 타이밍 맞춰 칩니다. 존 밖 공에 손대면 스트라이크</td>
+            <td class="num">약 1분</td>
+            <td>선구안을 규칙으로 넣었습니다. 3아웃이면 끝</td>
+          </tr>
+          <tr>
+            <th>💄 코스메틱 게임</th>
+            <td>같은 것끼리 닿으면 한 단계 위로 커집니다</td>
+            <td class="num">약 3분</td>
+            <td>합치기 게임 넷은 물리와 규칙이 같고 그림·소리만 다릅니다</td>
+          </tr>
+          <tr>
+            <th>🍉 수박깨기</th>
+            <td>딸기에서 시작해 수박까지 키웁니다</td>
+            <td class="num">약 3분</td>
+            <td>원조 수박 게임</td>
+          </tr>
+          <tr>
+            <th>⚾ 스포츠 코스메틱</th>
+            <td>구기 종목 화장품을 잔디밭에서 합칩니다</td>
+            <td class="num">약 3분</td>
+            <td>휘슬과 네트 소리가 납니다</td>
+          </tr>
+          <tr>
+            <th>🧢 유니폼모으기</th>
+            <td>같은 유니폼 둘이 닿으면 더 큰 팀이 됩니다</td>
+            <td class="num">약 3분</td>
+            <td>실제 물리 계산으로 굴러가고, 야구장 소리가 납니다</td>
+          </tr>
+          <tr>
+            <th>📸 폼 챌린지</th>
+            <td>카메라로 스쿼트·점프 횟수를 셉니다</td>
+            <td class="num">30초</td>
+            <td><strong>진짜 운동이 됩니다</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      코인으로 살 수 있는 것은 <strong>겉모습뿐</strong>입니다. 프로필 테두리와
+      불꽃 아이콘. 게임을 쉽게 만들어 주는 물건은 팔지 않습니다. 코인을 많이 번
+      아이가 유리해지면 게임이 아니라 노동이 되기 때문입니다.
+    </p>
+
+    <div class="note">
+      <span class="note-title">돈으로 살 수 없는 것도 있습니다</span>
+      연속 7일 · 30일 · 60일을 달성해야만 열리는 아이템이 따로 있습니다.
+      코인으로는 절대 살 수 없습니다.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="page-break">
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2>안심하셔도 되는 이유</h2>
+    </div>
+    <p class="sec-intro">
+      연속 기록은 강력한 동기입니다. 그런데 성장기 아이에게는 위험한 동기이기도
+      합니다. 아파도 쉬지 못하게 만들기 때문입니다. 그래서 다음 다섯 가지를
+      앱 안에 넣었습니다.
+    </p>
+
+    <div class="grid" style="gap:12px">
+      <div class="safe">
+        <div class="badge">1</div>
+        <div>
+          <h4>쉬어도 기록이 끊기지 않습니다</h4>
+          <p>주 1회 <strong>회복일</strong>을 쓸 수 있습니다. 수면 시간과 스트레칭을
+            기록하면 훈련하지 않아도 연속 일수가 이어집니다. 회복도 훈련의 일부입니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">2</div>
+        <div>
+          <h4>운동 횟수에 상한이 있습니다</h4>
+          <p>폼 챌린지는 동작마다 최대 횟수가 정해져 있습니다(버피 20회, 스쿼트 35회).
+            상한에 닿으면 <strong>점수를 더 주지 않고 판을 끝냅니다.</strong>
+            1등을 하겠다고 계속 반복하는 일이 없도록 한 장치입니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">3</div>
+        <div>
+          <h4>게임으로는 등급이 오르지 않습니다</h4>
+          <p>게임 점수는 꾸미기용 코인만 줍니다. 등급과 순위는 오직 훈련 기록으로만
+            오릅니다. 게임만 해서는 앱에서 얻을 것이 없습니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">4</div>
+        <div>
+          <h4>게임을 하려면 훈련을 해야 합니다</h4>
+          <p>입장권은 훈련으로만 생기고, 최대 10장까지만 쌓입니다. 며칠 모았다가
+            한꺼번에 몰아서 하는 것도 막았습니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">5</div>
+        <div>
+          <h4>순위를 지어내지 않습니다</h4>
+          <p>"전국 상위 몇 %" 같은 표현을 쓰지 않습니다. 근거가 되는 전국 데이터가
+            없는 숫자이기 때문입니다. 앱이 보여주는 등급은 <strong>본인의 꾸준함</strong>에서
+            나온 값입니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>기록은 어디에 저장되나요</h3>
+    <p>
+      <strong>기본은 아이의 휴대폰입니다.</strong> 로그인하지 않으면 기록은
+      기기 밖으로 나가지 않습니다(AI 코치 질문만 답변 생성을 위해 전송).
+      로그인 없이도 모든 기능을 끝까지 쓸 수 있습니다.
+    </p>
+    <p>
+      다만 기기에만 있으면 <strong>휴대폰을 바꿀 때 기록이 사라집니다.</strong>
+      그래서 원하시면 구글 로그인 후 기록을 계정에 백업할 수 있습니다.
+      백업은 <strong>대한민국(서울) 리전</strong>에 저장되고, 새 휴대폰에서
+      로그인하면 버튼 하나로 복원됩니다. 만 14세 미만은 <strong>보호자가
+      승인해야만</strong> 백업이 켜집니다 — 로그인해도 승인 전에는 한 건도
+      올라가지 않습니다.
+    </p>
+
+    <h3>계정 저장을 지키는 장치들</h3>
+    <p>
+      기록을 계정에 저장한다는 건 아이의 개인정보를 회사가 보관한다는 뜻입니다.
+      그래서 백업 기능보다 <strong>보호 장치를 먼저</strong> 만들었고, 아래
+      장치들이 실제로 백업을 통제합니다.
+    </p>
+
+    <div class="grid" style="gap:12px">
+      <div class="safe">
+        <div class="badge">✓</div>
+        <div>
+          <h4>무엇을 받는지 항목 단위로 보여드립니다</h4>
+          <p>"기타 정보" 같은 뭉뚱그린 표현을 쓰지 않습니다. 이름·생년월일·학교처럼
+            실제 항목을 그대로 나열하고, 각 항목을 왜 받는지 함께 적습니다.
+            수집 항목이 바뀌면 <strong>다시 동의를 받습니다.</strong></p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">✓</div>
+        <div>
+          <h4>만 14세 미만은 보호자가 직접 승인해야 합니다</h4>
+          <p>아이가 보호자 이름을 대신 적는 방식이 아닙니다. 보호자께서 학부모
+            모드에서 동의 항목을 확인하고 직접 승인하셔야 합니다.
+            <strong>승인 전까지는 기록이 아이 기기에만 저장되고 계정으로 올라가지
+            않습니다.</strong></p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">✓</div>
+        <div>
+          <h4>통증 정보는 따로 동의받고, 거부해도 앱을 씁니다</h4>
+          <p>통증·컨디션은 건강에 관한 정보라 별도 동의 항목으로 분리했습니다.
+            동의하지 않으면 <strong>AI 코치에 보내는 내용에서도 통째로
+            빠집니다.</strong> 화면 문구가 아니라 프로그램이 실제로 걸러냅니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">✓</div>
+        <div>
+          <h4>아이에게는 아이가 읽을 수 있는 말로 묻습니다</h4>
+          <p>이 앱의 주 이용자는 초·중학생입니다. 만 14세 미만이면 동의 화면이
+            <strong>쉬운 말로 먼저 뜹니다.</strong> "개인정보 수집·이용에 동의합니다"가
+            아니라 "휴대폰을 바꿔도 내 기록이 그대로 남게 해 줘요"라고 적습니다.
+            어른용 문장도 언제든 눌러서 볼 수 있고, 국외 이전처럼 법이 정한
+            고지 항목은 쉬운 말 화면에서도 <strong>빠짐없이 그대로</strong> 보여줍니다.</p>
+        </div>
+      </div>
+      <div class="safe">
+        <div class="badge">✓</div>
+        <div>
+          <h4>언제든 내려받고, 철회하고, 지울 수 있습니다</h4>
+          <p>마이페이지 &gt; 내 정보 관리에서 <strong>내 정보 내려받기 · 동의 철회 ·
+            모든 정보 삭제</strong>를 할 수 있습니다. 삭제 전에 무엇이 지워지는지
+            항목을 모두 보여드리고, 되돌릴 수 없다는 점을 한 번 더 확인합니다.
+            만 14세 미만 선수의 보호자는 자녀를 대신해 이 권리를 행사할 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>앱이 요구하는 권한</h3>
+    <p>
+      휴대폰이 "카메라를 허용하시겠습니까?"라고 묻기 <strong>전에</strong>, 앱이 먼저
+      무엇에 쓰는지 알려드립니다. 아이가 뜻도 모른 채 허용을 누르거나, 부모님이
+      이유를 모른 채 앱을 지우시는 일이 없도록 한 절차입니다.
+    </p>
+
+    <div class="note" style="margin-bottom:14px">
+      <span class="note-title">필수 접근권한은 없습니다</span>
+      아래 권한을 <strong>모두 거부하셔도</strong> 루틴 체크와 기록은 그대로 쓸 수
+      있습니다. 이 앱의 본래 기능은 훈련을 기록하는 것이고, 거기에는 어떤 권한도
+      필요하지 않습니다.
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>권한</th><th>언제 물어보나</th><th>거부하면</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>카메라</th>
+            <td>AI 자세 분석이나 사진 촬영을 누를 때</td>
+            <td>자세 분석·사진 촬영만 못 씁니다</td>
+          </tr>
+          <tr>
+            <th>사진</th>
+            <td>사진 첨부 버튼으로 앨범을 열 때</td>
+            <td>앨범에서 고르기만 못 씁니다</td>
+          </tr>
+          <tr>
+            <th>마이크</th>
+            <td>훈련 일지에서 음성 입력을 누를 때</td>
+            <td>말로 받아쓰기만 못 씁니다</td>
+          </tr>
+          <tr>
+            <th>알림</th>
+            <td>알람을 처음 켤 때</td>
+            <td>알림이 오지 않습니다</td>
+          </tr>
+          <tr>
+            <th>알람 및 리마인더</th>
+            <td>루틴 알람을 저장할 때</td>
+            <td>알림 시각이 몇 분 밀릴 수 있습니다</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      마이크로 받은 음성은 <strong>글자로 바꾼 뒤 저장하지 않습니다.</strong>
+      허용한 권한은 마이페이지 &gt; 앱 접근권한 안내에서 다시 확인하실 수 있고,
+      휴대폰 설정에서 언제든 끄실 수 있습니다.
+    </p>
+
+    <div class="note">
+      <span class="note-title">백업은 선택입니다</span>
+      로그인·백업을 쓰지 않아도 앱의 모든 기능을 그대로 쓸 수 있습니다.
+      백업을 켰다가 마음이 바뀌면 마이페이지에서 로그아웃하거나 동의를
+      철회하면 되고, "모든 정보 삭제"는 <strong>서버에 올라간 사본까지 함께</strong>
+      지웁니다. 자세한 내용은 개인정보처리방침에서 확인하실 수 있습니다.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">09</span>
+      <h2>시작하기</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-body">
+          <h4>앱을 설치하고 역할을 고릅니다</h4>
+          <p>선수 · 학부모 · 감독/코치 중에서 선택합니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>무엇을 받는지 확인하고 동의합니다</h4>
+          <p>항목별로 무엇을 왜 받는지 보여드립니다. 만 14세 미만이면 쉬운 말로
+            먼저 뜹니다. 통증 정보와 사진은 <strong>선택</strong>이라 동의하지 않아도
+            앱을 쓸 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>앱이 쓰는 권한을 안내받습니다</h4>
+          <p>카메라·사진·마이크·알림을 각각 언제 어디에 쓰는지 알려드립니다.
+            <strong>이 단계에서 권한을 요구하지 않습니다.</strong> 해당 기능을 처음
+            누를 때 그때 물어봅니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>종목을 선택합니다</h4>
+          <p>38개 종목을 지원합니다. 목록에 없으면 직접 입력할 수 있습니다.
+            종목에 따라 포지션·기록 항목·통증 부위가 모두 달라집니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>기본 정보를 입력합니다</h4>
+          <p>이름·생년월일·학교·포지션, 그리고 키·몸무게 같은 신체 정보를 넣습니다.
+            이 값이 첫 측정 기록이 되어 성장 그래프의 시작점이 됩니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>부모님 앱을 연동합니다</h4>
+          <p>아이 앱 마이페이지의 6자리 코드를 부모님 앱에 입력합니다.
+            아이가 <strong>만 14세 미만이면 여기서 보호자 승인</strong>을 함께
+            해 주셔야 합니다. 승인 전까지는 기록이 아이 기기에만 남습니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>첫 루틴을 완료합니다</h4>
+          <p>불꽃이 켜지고, 게임 입장권 2장이 생깁니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">10</span>
+      <h2>요금</h2>
+    </div>
+
+    <p>
+      <strong>지금은 모든 기능이 아무 제한 없이 무료입니다.</strong>
+      아래 표는 <strong>앞으로의 계획</strong>이며, 아직 적용된 것은 없습니다.
+      확정되면 바뀌기 전에 앱 안에서 미리 안내드립니다.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>기능</th><th>무료 (계획)</th><th>유료 (계획)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>루틴 기록 · 불꽃 · 미션</th><td>제공</td><td>제공</td></tr>
+          <tr><th>훈련 일지 · 피지컬 측정</th><td>제공</td><td>제공</td></tr>
+          <tr><th>게임 · 업적</th><td>제공</td><td>제공</td></tr>
+          <tr><th>부모님 연동</th><td>제공</td><td>제공</td></tr>
+          <tr><th>AI 코치 상담</th><td>일일 횟수 제한</td><td>무제한</td></tr>
+          <tr><th>주간 AI 리포트</th><td>월 1회</td><td>매주</td></tr>
+          <tr><th>측정 기록 보관</th><td>최근 기록</td><td>전체 기간</td></tr>
+          <tr><th>지도자용 팀 관리</th><td>—</td><td>제공 예정</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <span class="note-title">유료로 바뀌어도 기록은 그대로입니다</span>
+      이미 쌓은 훈련 기록·측정값·업적은 요금제와 무관하게 남습니다.
+      결제하지 않아도 아이가 지금까지 한 것을 잃지 않습니다.
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">11</span>
+      <h2>자주 묻는 질문</h2>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>게임 때문에 훈련을 안 하면 어쩌죠?</p>
+      <p class="a">게임 입장권은 훈련을 해야만 생깁니다. 입장권이 없으면 게임 화면에
+        들어가도 시작할 수 없습니다. 그리고 게임 점수는 등급에 아무 영향이 없습니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>연속 기록이 끊기면 아이가 좌절하지 않을까요?</p>
+      <p class="a">주 1회 회복일을 쓰면 훈련하지 않아도 연속이 이어집니다.
+        주간 목표도 7일이 아니라 5일이라, 이틀을 쉬어도 그 주의 목표를 채울 수
+        있습니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>아이가 앱에 너무 오래 붙어 있지 않을까요?</p>
+      <p class="a">하루 사용 시간은 3분 남짓으로 설계했습니다. 입장권은 최대
+        10장까지만 쌓이고, 미션도 하루 3개로 끝납니다. 더 해도 더 얻을 것이 없습니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>다른 아이와 비교되나요?</p>
+      <p class="a">현재 다른 사용자와 순위를 매기는 기능은 없습니다. 등급은 본인의
+        연속 달성 일수에서 계산됩니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>아이 통증을 어떻게 알 수 있나요?</p>
+      <p class="a">아이가 컨디션을 입력할 때 아픈 부위를 함께 남기면, 부모님 화면에
+        표시됩니다. AI 코치도 통증이 언급되면 휴식과 진료를 먼저 권합니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>휴대폰을 바꾸면 기록이 사라지나요?</p>
+      <p class="a">지금은 그렇습니다. 기록이 기기 안에만 저장되기 때문입니다.
+        계정에 저장하는 방식을 준비하고 있으며, 적용 전에 앱에서 안내드립니다.
+        그전에는 마이페이지 &gt; 내 정보 관리에서 <strong>내 정보 내려받기</strong>로
+        파일을 받아 두실 수 있습니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>아이 정보를 다른 회사에 넘기나요?</p>
+      <p class="a">넘기지 않습니다. 제3자에게 제공하려면 별도로 동의를 받아야
+        하며, 지금은 그런 동의를 받고 있지 않습니다. 보호자 연동은 아이가
+        직접 연동 코드를 알려준 경우에만 이뤄지는 공유이며 언제든 해제할 수
+        있습니다.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="mk">Q</span>아이가 실수로 기록을 다 지우면 어쩌죠?</p>
+      <p class="a">삭제는 두 단계 확인을 거치고, 무엇이 지워지는지 항목을 모두
+        보여드립니다. 그래도 걱정되시면 만 14세 미만 자녀의 경우 보호자께서
+        학부모 모드에서 상태를 확인하실 수 있습니다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p style="margin:0 0 6px"><strong>엘리트 루틴 케어</strong> · 학부모 안내서</p>
+    <p style="margin:0">
+      이 문서는 2026년 8월 기준으로 작성됐습니다. 기능은 업데이트에 따라 달라질 수
+      있으며, 변경 사항은 앱 안에서 안내드립니다.
+    </p>
+  </footer>
+
+</div>
